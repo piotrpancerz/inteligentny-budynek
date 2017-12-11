@@ -1,12 +1,30 @@
+/* Dependencies */
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/User');
-const emailValidator = require("email-validator");
+const emailValidator = require('email-validator');
 const crypto = require('crypto');
-const mailer = require('express-mailer');
+const nodemailer = require('nodemailer');
 
-// Get home page
+/* Configuration files */
+const mailerConfig = require('../config/mailerConfig.json');
+
+/* Create reusable transporter object for mailing */
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    secure: false,
+    port: 25,
+    auth: {
+        user: mailerConfig.mailUser,
+        pass: mailerConfig.mailPass
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+/* Get home page */
 router.get('/', function(req, res) {
     // console.log(req.session.user);
     if (!req.session.user) {
@@ -14,6 +32,10 @@ router.get('/', function(req, res) {
     } else {
         res.status(200).send();
     }
+});
+
+router.get('/email', function(req, res) {
+    res.send(mailerConfig.mailUser);
 });
 
 router.get('/dashboard', function(req, res) {
@@ -31,7 +53,7 @@ router.post('/register', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var active = false;
-    // creating activation hash
+    /* Creating activation hash */
     var confirmationHash = crypto.randomBytes(20).toString('hex');
 
     if (emailValidator.validate(email)) {
@@ -47,7 +69,19 @@ router.post('/register', function(req, res) {
                 throw err;
                 res.status(500).send();
             } else {
-                res.status(200).send('Successfully registered!');
+                let emailContent = {
+                    from: '"Inteligentny Budynek" <intellig.building@gmail.com>',
+                    to: email,
+                    subject: 'User activation',
+                    text: 'Hello' + username
+                }
+
+                transporter.sendMail(emailContent, (err, info) => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.status(200).send('Successfully registered!');
+                });
             }
         });
     } else {
