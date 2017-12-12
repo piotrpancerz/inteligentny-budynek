@@ -1,17 +1,21 @@
 /* Dependencies */
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const emailValidator = require('email-validator');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+const mailer = require('pug-mailer');
 
 /* Configuration files */
 const mailerConfig = require('../config/mailerConfig.json');
 
-/* Create reusable transporter object for mailing */
-let transporter = nodemailer.createTransport({
+/* Mongoose Promise */
+mongoose.Promise = global.Promise;
+
+/* Initialize mailing */
+mailer.init({
     service: "gmail",
     secure: false,
     port: 25,
@@ -32,10 +36,6 @@ router.get('/', function(req, res) {
     } else {
         res.status(200).send();
     }
-});
-
-router.get('/email', function(req, res) {
-    res.send(mailerConfig.mailUser);
 });
 
 router.get('/dashboard', function(req, res) {
@@ -67,21 +67,24 @@ router.post('/register', function(req, res) {
         newuser.save(function(err, savedUser) {
             if (err) {
                 throw err;
-                res.status(500).send();
+                res.status(500).send('Unable to add user to database!'); // dodać catch errora z mongoose
             } else {
-                let emailContent = {
-                    from: '"Inteligentny Budynek" <intellig.building@gmail.com>',
-                    to: email,
-                    subject: 'User activation',
-                    text: 'Hello' + username
-                }
-
-                transporter.sendMail(emailContent, (err, info) => {
-                    if (err) {
+                /* Sending authentication email */
+                mailer.send({
+                        from: '"Inteligentny Budynek" <intellig.building@gmail.com>',
+                        to: email,
+                        subject: 'User activation',
+                        template: '../../views/authenticationEmail',
+                        data: {
+                            username: username,
+                            url: 'http://localhost:3000/authenticate/' + username + '/' + confirmationHash
+                        }
+                    })
+                    .then(response => res.status(200).send('Successully registered!'))
+                    .catch(err => {
                         throw err;
-                    }
-                    res.status(200).send('Successfully registered!');
-                });
+                        res.status(500).send('Oops! Something went wrong. Please try again!');
+                    });
             }
         });
     } else {
@@ -100,7 +103,7 @@ router.post('/login', function(req, res) {
     }, function(err, user) {
         if (err) {
             throw err;
-            return res.status(500).send();
+            return res.status(500).send('Oops! Something went wrong. Please try again!');
         }
 
         if (!user) {

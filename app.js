@@ -11,6 +11,9 @@ const mongoose = require('mongoose');
 /* Configuration files */
 const dbConfig = require('./config/dbConfig.json')
 
+/* Mongoose Promise */
+mongoose.Promise = global.Promise;
+
 /* Connecting to database */
 mongoose.connect(dbConfig.dbKind + '://' + dbConfig.host + ':' + dbConfig.port + '/' + dbConfig.dbName, function(err) {
     if (err) {
