@@ -1,6 +1,6 @@
 var app = angular.module('intBuildApp', ['ui.router']);
 
-app.config(['$stateProvider', function($stateProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('main', {
@@ -81,4 +81,5 @@ app.config(['$stateProvider', function($stateProvider) {
                 }
             }
         });
+    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/charts').otherwise('/')
 }]);
