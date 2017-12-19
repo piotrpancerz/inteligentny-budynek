@@ -1,33 +1,84 @@
-var app = angular.module('intBuildApp', ['ngRoute']);
+var app = angular.module('intBuildApp', ['ui.router']);
 
-app.config(function($routeProvider) {
-    // $locationProvider.hashPrefix('');
+app.config(['$stateProvider', function($stateProvider) {
 
-    $routeProvider.when('/', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/home.html'
+    $stateProvider
+        .state('main', {
+            url: '/',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/home.html',
+                    controller: 'MainController'
+                }
+            }
         })
-        .when('/login', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/login.html'
+        .state('home', {
+            url: '/home',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/home.html',
+                    controller: 'HomeController'
+                }
+            }
         })
-        .when('/register', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/register.html'
+        .state('login', {
+            url: '/login',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/login.html',
+                    controller: 'LoginController'
+                }
+            }
         })
-        .when('/home', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/home.html'
+        .state('register', {
+            url: '/register',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/register.html',
+                    controller: 'RegisterController'
+                }
+            }
         })
-        .when('/components', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/home.html'
+        .state('components', {
+            url: '/components',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/components.html',
+                    controller: 'ComponentsController'
+                }
+            }
         })
-        .when('/chart', {
-            controller: 'IntBuildController',
-            templateUrl: 'views/home.html'
-        })
-        .otherwise({
-            redirectTo: '/'
+        .state('charts', {
+            url: '/charts',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/charts.html',
+                    controller: 'ChartsController'
+                }
+            }
         });
-});
+}]);

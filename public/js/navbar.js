@@ -1,9 +1,7 @@
 var app = angular.module('intBuildApp');
 
-app.controller('NavbarController', function($scope, $http, $location, $routeParams) {
-    var vm = this;
-    $scope.reloadRoute = function() { window.location.reload(); }
-        /* Define navbar content */
+app.controller('NavbarController', function($scope, $http, $location) {
+    /* Define main navbar content */
     switch ($location.$$url) {
         case '/':
             $scope.navbarMain = [{
@@ -44,6 +42,62 @@ app.controller('NavbarController', function($scope, $http, $location, $routePara
                 'class': '',
                 'icon': 'fa-line-chart'
             }];
+            break;
+        case '/components':
+            $scope.navbarMain = [{
+                'name': 'Home',
+                'link': '#!/home',
+                'class': '',
+                'icon': 'fa-home'
+            }, {
+                'name': 'Components',
+                'link': '#!/components',
+                'class': 'active',
+                'icon': 'fa-list'
+            }, {
+                'name': 'Charts',
+                'link': '#!/charts',
+                'class': '',
+                'icon': 'fa-line-chart'
+            }];
+            break;
+        case '/charts':
+            $scope.navbarMain = [{
+                'name': 'Home',
+                'link': '#!/home',
+                'class': '',
+                'icon': 'fa-home'
+            }, {
+                'name': 'Components',
+                'link': '#!/components',
+                'class': '',
+                'icon': 'fa-list'
+            }, {
+                'name': 'Charts',
+                'link': '#!/charts',
+                'class': 'active',
+                'icon': 'fa-line-chart'
+            }];
+            break;
+        default:
+            $scope.navbarMain = [{
+                'name': 'Register',
+                'link': '#!/register',
+                'class': '',
+                'icon': 'fa-user-plus'
+            }, {
+                'name': 'Login',
+                'link': '#!/login',
+                'class': '',
+                'icon': 'fa-sign-in'
+            }];
+            break;
+    }
+    /* Define right navbar content */
+    switch ($location.$$url) {
+        case '/home':
+        case '/components':
+        case '/charts':
             $scope.navbarRight = [{
                 'name': '',
                 'link': '',
@@ -61,23 +115,9 @@ app.controller('NavbarController', function($scope, $http, $location, $routePara
                 'icon': 'fa-remove'
             }];
             break;
-        case '/components':
-            break;
-        case '/charts':
-            break;
         default:
-            $scope.navbarMain = [{
-                'name': 'Register',
-                'link': '#!/register',
-                'class': '',
-                'icon': 'fa-user-plus'
-            }, {
-                'name': 'Login',
-                'link': '#!/login',
-                'class': '',
-                'icon': 'fa-sign-in'
-            }];
+            $scope.navbarRight = [];
             break;
+
     }
-    console.log('yy');
 });
