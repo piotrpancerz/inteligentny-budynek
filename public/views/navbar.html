@@ -13,7 +13,7 @@
             <li ng-repeat="eachOption in navbarMain track by $index" class="{{eachOption.class}}"><a ng-href="{{eachOption.link}}"><i class="fa fa-lg {{eachOption.icon}}"></i> {{eachOption.name}}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li ng-repeat="eachOption in navbarRight track by $index" class="{{eachOption.class}}"><a ng-href="{{eachOption.link}}"><i class="fa fa-lg {{eachOption.icon}}"></i> {{eachOption.name}}</a></li>
+            <li ng-repeat="eachOption in navbarRight track by $index" class="{{eachOption.class}}"><a ng-click="eachOption.click()"><i class="fa fa-lg {{eachOption.icon}}"></i> {{eachOption.name}}</a></li>
         </ul>
     </div>
     <!--/.nav-collapse -->

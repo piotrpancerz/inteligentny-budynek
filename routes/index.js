@@ -39,18 +39,13 @@ mailer.init({
 /* Check if user is logged in */
 router.get('/api/user/checklog', function(req, res) {
     if (!req.session.user) {
-        res.redirect('/');
+        res.json({
+            'logged': false
+        });
     } else {
-        res.redirect('/');
-    }
-});
-
-/* Check if user is not logged in */
-router.get('/api/user/checknotlog', function(req, res) {
-    if (req.session.user) {
-        res.redirect('/home');
-    } else {
-        res.send();
+        res.json({
+            'logged': true
+        });
     }
 });
 
@@ -111,19 +106,27 @@ router.post('/api/user/login', function(req, res) {
     }, function(err, user) {
         if (err) {
             throw err;
-            return res.status(500).send('Oops! Something went wrong. Please try again!');
+            return res.json({
+                'logged': false
+            })
         }
 
         if (!user) {
-            return res.status(404).send('Invalid username or password!');
+            return res.json({
+                'logged': false
+            })
         }
 
         user.comparePassword(password, function(err, isMatch) {
             if (isMatch && isMatch == true) {
                 req.session.user = user;
-                return res.status(200).send('Succesfully logged in!');
+                return res.json({
+                    'logged': true
+                })
             } else {
-                return res.status(401).send('Invalid username or password!');
+                return res.json({
+                    'logged': false
+                })
             }
         });
     })
@@ -133,9 +136,13 @@ router.post('/api/user/login', function(req, res) {
 router.get('/api/user/logout', function(req, res) {
     req.session.destroy(function(err) {
         if (err) {
-            return res.status(500).send();
+            return res.json({
+                'logged': true
+            });
         } else {
-            return res.status(200).send();
+            return res.json({
+                'logged': false
+            });
         }
     });
 });

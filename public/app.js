@@ -11,7 +11,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     controller: 'NavbarController'
                 },
                 'content': {
-                    templateUrl: './views/home.html',
+                    templateUrl: './views/main.html',
                     controller: 'MainController'
                 }
             }
