@@ -3,10 +3,15 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const mongoose = require('mongoose');
-const User = require('../models/User');
 const emailValidator = require('email-validator');
 const crypto = require('crypto');
 const mailer = require('pug-mailer');
+
+const User = require('../models/User');
+const Sensor = require('../models/Sensor');
+const Actuator = require('../models/Actuator');
+const House = require('../models/House');
+
 
 /* Configuration files */
 const mailerConfig = require('../config/mailerConfig.json');
@@ -28,9 +33,11 @@ mailer.init({
     }
 });
 
-/* Get home page */
-router.get('/', function(req, res) {
-    // console.log(req.session.user);
+
+
+
+/* Check if user is logged in */
+router.get('/api/user/checklog', function(req, res) {
     if (!req.session.user) {
         res.status(401).send();
     } else {
@@ -38,17 +45,9 @@ router.get('/', function(req, res) {
     }
 });
 
-router.get('/dashboard', function(req, res) {
-    console.log(req.session.user);
 
-    if (!req.session.user) {
-        res.status(401).send();
-    } else {
-        res.status(200).send();
-    }
-});
-
-router.post('/register', function(req, res) {
+/* Register user */
+router.post('/api/user/register', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
@@ -77,7 +76,7 @@ router.post('/register', function(req, res) {
                         template: '../../views/authenticationEmail',
                         data: {
                             username: username,
-                            url: 'http://localhost:3000/authenticate/' + username + '/' + confirmationHash
+                            url: 'http://localhost:3000/api/user/authenticate/' + username + '/' + confirmationHash
                         }
                     })
                     .then(response => res.status(200).send('Successully registered!'))
@@ -94,7 +93,8 @@ router.post('/register', function(req, res) {
 
 });
 
-router.post('/login', function(req, res) {
+/* Log in user */
+router.post('/api/user/login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -121,17 +121,19 @@ router.post('/login', function(req, res) {
     })
 });
 
-router.get('/logout', function(req, res) {
+/* Log out user */
+router.get('/api/user/logout', function(req, res) {
     req.session.destroy(function(err) {
         if (err) {
-            return res.status(200).send();
+            return res.status(500).send();
         } else {
             return res.status(200).send();
         }
     });
 });
 
-router.get('/authenticate/:user/:hash', function(req, res) {
+/* Authenticate user */
+router.get('/api/user/authenticate/:user/:hash', function(req, res) {
     var user = req.params.user;
     var hash = req.params.hash;
     User.findOne({
@@ -158,6 +160,66 @@ router.get('/authenticate/:user/:hash', function(req, res) {
             res.status(404).send('Authentication failed. Either your account is already authenticated or authentication link is broken');
         }
     })
+});
+
+/* Get user home schema */
+router.get('/api/home', function(req, res) {
+
+})
+
+/* Edit user home schema */
+router.post('/api/home', function(req, res) {
+
+})
+
+/* Get all user sensors */
+router.get('/api/sensor', function(req, res) {
+
+});
+
+/* Get all user actuators */
+router.get('/api/actuator', function(req, res) {
+
+});
+
+/* Add sensor */
+router.post('/api/sensor', function(req, res) {
+
+});
+
+/* Add actuator */
+router.post('/api/actuator', function(req, res) {
+
+});
+
+/* Edit sensor */
+router.put('/api/sensor/:sensorId', function(req, res) {
+
+});
+
+/* Edit actuator */
+router.put('/api/actuator/:actuatorId', function(req, res) {
+
+});
+
+/* Delete sensor */
+router.delete('/api/sensor/:sensortId', function(req, res) {
+
+});
+
+/* Delete actuator */
+router.delete('/api/actuator/:actuatorId', function(req, res) {
+
+});
+
+/* Get chart data for specific sensor */
+router.get('/api/sensor/data/:sensorId', function(req, res) {
+
+});
+
+/* Get chart data for specific actuator */
+router.get('/api/actuator/data/:actuatorId', function(req, res) {
+
 });
 
 module.exports = router;
