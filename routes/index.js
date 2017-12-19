@@ -39,12 +39,20 @@ mailer.init({
 /* Check if user is logged in */
 router.get('/api/user/checklog', function(req, res) {
     if (!req.session.user) {
-        res.status(401).send();
+        res.redirect('/');
     } else {
-        res.status(200).send();
+        res.redirect('/');
     }
 });
 
+/* Check if user is not logged in */
+router.get('/api/user/checknotlog', function(req, res) {
+    if (req.session.user) {
+        res.redirect('/home');
+    } else {
+        res.send();
+    }
+});
 
 /* Register user */
 router.post('/api/user/register', function(req, res) {
