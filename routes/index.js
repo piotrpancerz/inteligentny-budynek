@@ -43,9 +43,15 @@ router.get('/api/user/checklog', function(req, res) {
             'logged': false
         });
     } else {
-        res.json({
-            'logged': true
-        });
+        user = req.session.user;
+        return res.json({
+            'logged': true,
+            'user': {
+                'username': user.username,
+                'active': user.active,
+                'email': user.email
+            }
+        })
     }
 });
 
@@ -121,7 +127,12 @@ router.post('/api/user/login', function(req, res) {
             if (isMatch && isMatch == true) {
                 req.session.user = user;
                 return res.json({
-                    'logged': true
+                    'logged': true,
+                    'user': {
+                        'username': user.username,
+                        'active': user.active,
+                        'email': user.email
+                    }
                 })
             } else {
                 return res.json({

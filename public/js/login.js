@@ -12,9 +12,15 @@ app.controller('LoginController', ['$scope', '$http', '$location', '$stateParams
         $http.post('/api/user/login', $scope.user).then(function(response) {
             if (response.data.logged) {
                 window.location.replace('#!/home');
+                $scope.user = {
+                    username: response.data.user.username,
+                    active: response.data.user.active
+                }
             } else {
                 $('#username').parent().addClass('has-error');
                 $('#password').parent().addClass('has-error');
+                $('#username').val('');
+                $('#password').val('');
             }
         })
     }

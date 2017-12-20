@@ -80,6 +80,56 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     controller: 'ChartsController'
                 }
             }
+        })
+        .state('add', {
+            url: '/add',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/add.html',
+                    controller: 'AddController'
+                }
+            }
+        })
+        .state('edit', {
+            url: '/edit',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/edit.html',
+                    controller: 'EditController'
+                }
+            }
+        }).state('remove', {
+            url: '/remove',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/remove.html',
+                    controller: 'RemoveController'
+                }
+            }
+        }).state('authenticate', {
+            url: '/authenticate',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/authenticate.html',
+                    controller: 'AuthenticateController'
+                }
+            }
         });
-    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/charts').otherwise('/')
+    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/charts', '/add', '/edit', '/remove', '/authenticate').otherwise('/')
 }]);

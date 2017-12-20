@@ -1,0 +1,22 @@
+<div class="panel panel-default" ng-init="initAuthenticate()">
+    <div class="panel-heading">
+        <h3 class="panel-title">Authenticate</h3>
+    </div>
+    <div class="panel-body">
+        <form class="col-md-offset-3 col-md-6" ng-submit="moveToHome()">
+            <div class="form-group">
+                <h2 class="text-center">Hello, {{user.username}}</h2>
+            </div>
+            <div class="form-group">
+                <p class="text-center">In order to get full access to website, please authenticate your email address by pressing the link provided in message send to :</p>
+            </div>
+
+            <div class="form-group">
+                <input type="email" ng-value="user.email" class="form-control" id="email" disabled>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-default">Done</button>
+            </div>
+        </form>
+    </div>
+</div>
