@@ -173,7 +173,6 @@ router.get('/api/user/authenticate/:user/:hash', function(req, res) {
         }
         if (doc) {
             doc.active = true;
-            doc.confirmationHash = undefined;
             doc.save(function(err, savedObject) {
                 if (err) {
                     throw err;
