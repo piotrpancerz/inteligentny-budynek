@@ -11,7 +11,4 @@ app.controller('AuthenticateController', ['$scope', '$http', '$location', '$stat
             $scope.user = response.data.user;
         });
     }
-    $scope.moveToHome = function() {
-        window.location.replace('#!/home')
-    }
 }]);

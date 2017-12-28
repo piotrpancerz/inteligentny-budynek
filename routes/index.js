@@ -44,12 +44,22 @@ router.get('/api/user/checklog', function(req, res) {
         });
     } else {
         user = req.session.user;
-        return res.json({
-            'logged': true,
-            'user': {
-                'username': user.username,
-                'active': user.active,
-                'email': user.email
+        User.findOne({
+            username: user.username
+        }, function(err, userFromDatabase) {
+            if (err || !userFromDatabase) {
+                return res.json({
+                    'logged': false
+                })
+            } else {
+                return res.json({
+                    'logged': true,
+                    'user': {
+                        'username': user.username,
+                        'active': userFromDatabase.active,
+                        'email': user.email
+                    }
+                })
             }
         })
     }
