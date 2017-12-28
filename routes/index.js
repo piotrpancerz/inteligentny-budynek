@@ -74,8 +74,28 @@ router.post('/api/user/register', function(req, res) {
 
         newuser.save(function(err, savedUser) {
             if (err) {
-                throw err;
-                res.status(500).send('Unable to add user to database!'); // dodać catch errora z mongoose
+                if (err.code === 11000) {
+                    /* Email or username could violate the unique index. we need to find out which field it was. */
+                    var usernameIndex = err.message.indexOf("username");
+                    var emailIndex = err.message.indexOf("email");
+                    if (usernameIndex >= 0) {
+                        res.json({
+                            registered: 'Username is already used!',
+                            danger: ['username']
+                        })
+                    } else if (emailIndex >= 0) {
+                        res.json({
+                            registered: 'Email is already used!',
+                            danger: ['email']
+                        })
+                    } else {
+                        res.json({
+                            registered: 'Oops! Something went wrong. Please try again!',
+                            danger: ['username', 'email', 'password', 'passwordConfirm']
+                        })
+                    }
+                }
+
             } else {
                 /* Sending authentication email */
                 mailer.send({
@@ -88,15 +108,22 @@ router.post('/api/user/register', function(req, res) {
                             url: 'http://localhost:3000/api/user/authenticate/' + username + '/' + confirmationHash
                         }
                     })
-                    .then(response => res.status(200).send('Successully registered!'))
+                    .then(response => res.json({
+                        registered: true
+                    }))
                     .catch(err => {
-                        throw err;
-                        res.status(500).send('Oops! Something went wrong. Please try again!');
+                        res.json({
+                            registered: 'Oops! Something went wrong. Please try again!',
+                            danger: ['username', 'email', 'password', 'passwordConfirm']
+                        })
                     });
             }
         });
     } else {
-        res.status(500).send('Provided email is invalid!');
+        res.json({
+            registered: 'Provided email is invalid',
+            danger: ['email']
+        })
     };
 
 

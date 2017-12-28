@@ -6,7 +6,9 @@ app.controller('NavbarController', function($scope, $http, $location) {
             if (response.data.logged) {
                 $scope.user = response.data.user;
                 $scope.navbarHeader = 'Intelligent Building - ' + $scope.user.username;
-                console.log(navbarHeader);
+                // console.log($scope.navbarHeader);
+            } else {
+                $scope.navbarHeader = 'Intelligent Building';
             }
         })
     }
