@@ -5,15 +5,18 @@ app.controller('NavbarController', function($scope, $http, $location) {
         $http.get('/api/user/checklog').then(function(response) {
             if (response.data.logged) {
                 $scope.user = response.data.user;
-                $scope.navbarHeader = 'Intelligent Building - ' + $scope.user.username;
-                // console.log($scope.navbarHeader);
+                // if ($scope.navbarHeader === 'Intelligent Building') {
+                // $scope.navbarHeader = 'Intelligent Building - ' + $scope.user.username;
+                // }
             } else {
-                $scope.navbarHeader = 'Intelligent Building';
+                // if ($scope.navbarHeader.indexOf('-') >= 0) {
+                // $scope.navbarHeader = 'Intelligent Building';
+                // }
             }
         })
     }
     $scope.initNavbar = function() {
-        $scope.navbarHeader = 'Intelligent Building';
+        $scope.navbarHeader = 'Intelligent Builiding';
         $scope.checkIfLogged();
         /* Define main navbar content */
         switch ($location.$$url) {
