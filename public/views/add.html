@@ -8,10 +8,10 @@
                 <label for="componentKindSelect">Component Type :</label>
                 <select class="selectpicker form-control" id="componentKindSelect">
                     <option disabled selected value> Select type of component... </option>
-                    <option value="1">Temperature</option>
-                    <option value="2">Humidity</option>
-                    <option value="3">Pressure</option>
-                    <option value="4">Binary Switch</option>
+                    <option value="Temperature">Temperature</option>
+                    <option value="Humidity">Humidity</option>
+                    <option value="Pressure">Pressure</option>
+                    <option value="Binary Switch">Binary Switch</option>
                   </select>
             </div>
 
@@ -45,9 +45,18 @@
                     </label>
                 </div>
             </div>
+            <div class="form-group component icons hidden">
+                <label>Icon :</label>
+                <div class="text-center">
+                    <label ng-repeat="eachIcon in icons" class="radio-inline"><input type="radio" name="optradio" ng-model="component.icon" ng-value="{{eachIcon}}"><img ng-src="{{eachIcon.link}}" alt="" height="42" width="42"></label>
+                </div>
+            </div>
 
             <div class="form-group component text-center hidden">
                 <button type="submit" class="btn btn-default">Add</button>
+            </div>
+            <div class="form-group component text-center hidden">
+                <p id="finalMessage"></p>
             </div>
         </form>
     </div>

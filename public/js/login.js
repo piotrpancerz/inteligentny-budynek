@@ -21,6 +21,7 @@ app.controller('LoginController', ['$scope', '$http', '$location', '$stateParams
                 $('#password').parent().addClass('has-error');
                 $('#username').val('');
                 $('#password').val('');
+                $('#errorMessage').text('Invalid username or password!');
             }
         })
     }

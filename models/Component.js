@@ -8,7 +8,7 @@ const ComponentSchema = new mongoose.Schema({
     resolution: { type: Number, required: true },
     desired: { type: Number, required: true },
     regulation: { type: Boolean, required: true },
-    icon: { type: String, required: false },
+    icon: { type: Object, required: true },
     data: { type: Array, required: true }
 });
 

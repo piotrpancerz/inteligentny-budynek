@@ -5,9 +5,20 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
         $http.get('/api/user/checklog').then(function(response) {
             if (!response.data.logged || !response.data.user.active) {
                 window.location.replace('/')
+            } else {
+                $scope.user = response.data.user;
             };
         });
 
+        $scope.component = {
+            name: "",
+            type: "",
+            range: [],
+            resolution: 1,
+            desired: 1,
+            regulation: false,
+            icon: ''
+        }
         $('select').selectpicker();
 
         $('#componentKindSelect').on('change', function() {
@@ -25,7 +36,24 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             });
             $("#componentResolution").slider('refresh');
             switch ($(this).val()) {
-                case '1':
+                case 'Temperature':
+                    $scope.icons = [{
+                            name: 'Oven',
+                            file: '005-oven.svg',
+                            link: '/../icons/005-oven.svg'
+                        },
+                        {
+                            name: 'Temperature',
+                            file: '007-temperature.svg',
+                            link: '/../icons/007-temperature.svg'
+                        },
+                        {
+                            name: 'Freezer',
+                            file: '009-freezer.svg',
+                            link: '/../icons/009-freezer.svg'
+                        },
+                    ];
+                    $scope.$apply();
                     $('div.form-group.component').removeClass('hidden');
                     $("#componentValueRange").slider({
                         min: -50,
@@ -43,7 +71,13 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                     $("#componentDesiredValue").slider('refresh');
                     $('button.inputLabel').html('&#x2103');
                     break;
-                case '2':
+                case 'Humidity':
+                    $scope.icons = [{
+                        name: 'Water',
+                        file: '008-water.svg',
+                        link: '/../icons/008-water.svg'
+                    }];
+                    $scope.$apply();
                     $('div.form-group.component').removeClass('hidden');
                     $("#componentValueRange").slider({
                         min: 0,
@@ -57,7 +91,13 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                     $("#componentDesiredValue").slider('refresh');
                     $('button.inputLabel').text('%');
                     break;
-                case '3':
+                case 'Pressure':
+                    $scope.icons = [{
+                        name: 'Gauge',
+                        file: '001-gauge.svg',
+                        link: '/../icons/001-gauge.svg'
+                    }];
+                    $scope.$apply();
                     $('div.form-group.component:not(.desiredValue)').removeClass('hidden');
                     $("#componentValueRange").slider({
                         min: 850,
@@ -71,7 +111,29 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                     $("#componentDesiredValue").slider('refresh');
                     $('button.inputLabel').text('hPa');
                     break;
-                case '4':
+                case 'Binary Switch':
+                    $scope.icons = [{
+                            name: 'Garage',
+                            file: '002-garage.svg',
+                            link: '/../icons/002-garage.svg'
+                        },
+                        {
+                            name: 'Door',
+                            file: '003-door.svg',
+                            link: '/../icons/003-door.svg'
+                        },
+                        {
+                            name: 'Window',
+                            file: '004-window.svg',
+                            link: '/../icons/004-window.svg'
+                        },
+                        {
+                            name: 'Light-Bulb',
+                            file: '006-light-bulb.svg',
+                            link: '/../icons/006-light-bulb.svg'
+                        }
+                    ];
+                    $scope.$apply();
                     $('div.form-group.component').removeClass('hidden');
                     $("#componentValueRange").slider({
                         min: 0,
@@ -120,6 +182,23 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
     }
 
     $scope.add = function() {
-        console.log($scope.component);
+        $scope.component.range = $('#componentValueRange').slider('getValue');
+        $scope.component.resolution = $('#componentResolution').slider('getValue');
+        $scope.component.desired = $('#componentDesiredValue').slider('getValue');
+        $scope.component.type = $('#componentKindSelect').val();
+        $scope.component.user = $scope.user;
+        if ($scope.component.name == "") {
+            $('#finalMessage').text('Name has to be defined!');
+            $('#componentName').parent().addClass('has-error');
+        } else if ($scope.component.icon == "") {
+            $('#componentName').parent().removeClass('has-error');
+            $('#finalMessage').text('Icon has to be chosen!');
+        } else {
+            $('#componentName').parent().removeClass('has-error');
+            $('#finalMessage').text('Loading...');
+            $('button[type=submit]').prop('disabled', true);
+            // send
+            console.log($scope.component);
+        }
     }
 }]);
