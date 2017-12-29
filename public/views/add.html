@@ -1,8 +1,54 @@
 <div class="panel panel-default" ng-init="initAdd()">
     <div class="panel-heading">
-        <h3 class="panel-title">Register form</h3>
+        <h3 class="panel-title">Add component</h3>
     </div>
     <div class="panel-body">
-        asdasdas
+        <form class="col-md-offset-3 col-md-6" ng-submit="add()">
+            <div class="form-group mainSelect">
+                <label for="componentKindSelect">Component Type :</label>
+                <select class="selectpicker form-control" id="componentKindSelect">
+                    <option disabled selected value> Select type of component... </option>
+                    <option value="1">Temperature</option>
+                    <option value="2">Humidity</option>
+                    <option value="3">Pressure</option>
+                    <option value="4">Binary Switch</option>
+                  </select>
+            </div>
+
+            <div class="form-group component name hidden">
+                <label for="componentName">Component Name :</label>
+                <input class="form-control" id="componentName" ng-model='component.name'></input>
+            </div>
+            <div class="form-group component valueRange hidden">
+                <label for="componentValueRange">Value Range :</label>
+                <div class="text-center">
+                    <slider ng-model='component.range' class="form-control" id="componentValueRange"></slider>
+                    <button id="valueRangeUnit" class="btn btn-sm btn-primary disabled inputLabel"></button>
+                </div>
+            </div>
+            <div class="form-group component resolution hidden">
+                <label for="componentResolution">Resolution :</label>
+                <div class="text-center">
+                    <slider ng-model='component.resolution' class="form-control" id="componentResolution"></slider>
+                </div>
+            </div>
+            <div class="form-group component desiredValue hidden">
+                <label for="componentDesiredValue">Desired Value :</label>
+                <div class="text-center">
+                    <slider ng-model='component.desired' class="form-control" id="componentDesiredValue"></slider>
+                    <button id="desiredValueUnit" class="btn btn-sm btn-primary disabled inputLabel"></button>
+                </div>
+                <div class="form-check text-center">
+                    <label class="form-check-label">
+                      <input ng-model="component.regulation" id="componentDesiredValueActive" class="form-check-input" type="checkbox" value="">
+                        Activate Regulation
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group component text-center hidden">
+                <button type="submit" class="btn btn-default">Add</button>
+            </div>
+        </form>
     </div>
 </div>

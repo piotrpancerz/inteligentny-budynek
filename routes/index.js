@@ -8,8 +8,7 @@ const crypto = require('crypto');
 const mailer = require('pug-mailer');
 
 const User = require('../models/User');
-const Sensor = require('../models/Sensor');
-const Actuator = require('../models/Actuator');
+const Component = require('../models/Component');
 const House = require('../models/House');
 
 
@@ -234,54 +233,32 @@ router.post('/api/home', function(req, res) {
 
 })
 
-/* Get all user sensors */
-router.get('/api/sensor', function(req, res) {
+/* Get all user components */
+router.get('/api/component', function(req, res) {
 
 });
 
-/* Get all user actuators */
-router.get('/api/actuator', function(req, res) {
 
-});
-
-/* Add sensor */
-router.post('/api/sensor', function(req, res) {
-
-});
-
-/* Add actuator */
-router.post('/api/actuator', function(req, res) {
+/* Add component */
+router.post('/api/component', function(req, res) {
 
 });
 
 /* Edit sensor */
-router.put('/api/sensor/:sensorId', function(req, res) {
+router.put('/api/component/:componentId', function(req, res) {
 
 });
 
-/* Edit actuator */
-router.put('/api/actuator/:actuatorId', function(req, res) {
+/* Delete component */
+router.delete('/api/component/:componentId', function(req, res) {
 
 });
 
-/* Delete sensor */
-router.delete('/api/sensor/:sensortId', function(req, res) {
+
+/* Get chart data for specific component */
+router.get('/api/component/data/:componentId', function(req, res) {
 
 });
 
-/* Delete actuator */
-router.delete('/api/actuator/:actuatorId', function(req, res) {
-
-});
-
-/* Get chart data for specific sensor */
-router.get('/api/sensor/data/:sensorId', function(req, res) {
-
-});
-
-/* Get chart data for specific actuator */
-router.get('/api/actuator/data/:actuatorId', function(req, res) {
-
-});
 
 module.exports = router;
