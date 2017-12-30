@@ -17,14 +17,17 @@ app.controller('ComponentsController', ['$scope', '$http', '$location', '$stateP
     $scope.load = function() {
         $http.get('/api/components/get').then(function(response) {
             if (!response.data.found) {
-                $('div.form-group:not(.message)').addClass('hidden');
+                $('.form-group:not(.message):not(.button)').addClass('hidden');
                 $('div.message').removeClass('hidden');
                 $('#finalMessage').text(reponse.data.message);
             } else if (response.data.components === undefined || response.data.components.length == 0) {
-                $('div.form-group:not(.message)').addClass('hidden');
+                $('.form-group:not(.message):not(.button)').addClass('hidden');
                 $('div.message').removeClass('hidden');
                 $('#finalMessage').text('There is no components to show.');
             } else {
+                $('.form-group:not(.message)').removeClass('hidden');
+                $('.form-group.message').addClass('hidden');
+                $('#finalMessage').text('');
                 $scope.components = response.data.components;
             }
         });
