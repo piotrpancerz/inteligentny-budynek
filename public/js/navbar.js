@@ -151,6 +151,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
                 }];
                 break;
             case '/authenticate':
+            case ($location.$$url.match(/^\/authentication\//) || {}).input:
                 $scope.navbarMain = [];
                 break;
             default:

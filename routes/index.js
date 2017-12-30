@@ -114,7 +114,7 @@ router.post('/api/user/register', function(req, res) {
                         template: '../../views/authenticationEmail',
                         data: {
                             username: username,
-                            url: 'http://localhost:3000/api/user/authenticate/' + username + '/' + confirmationHash
+                            url: 'http://localhost:3000/#!/authentication/' + username + '/' + confirmationHash
                         }
                     })
                     .then(response => res.json({
@@ -204,21 +204,21 @@ router.get('/api/user/authenticate/:user/:hash', function(req, res) {
         active: false
     }, function(err, doc) {
         if (err) {
-            throw err;
-            res.status(500).send('Something went wrong. Please try again later.');
+            console.log(err);
+            res.json({ message: 'Something went wrong. Please try again later.' });
         }
         if (doc) {
             doc.active = true;
             doc.save(function(err, savedObject) {
                 if (err) {
-                    throw err;
-                    res.status(500).send('Something went wrong. Please try again later.')
+                    console.log('err');
+                    res.json({ message: 'Something went wrong. Please try again later.' });
                 } else {
-                    res.status(200).send('Successfully authenticated!');
+                    res.json({ message: 'Successfully authenticated!' });
                 }
             });
         } else {
-            res.status(404).send('Authentication failed. Either your account is already authenticated or authentication link is broken');
+            res.json({ message: 'Authentication failed. Either your account is already authenticated or authentication link is broken' });
         }
     })
 });

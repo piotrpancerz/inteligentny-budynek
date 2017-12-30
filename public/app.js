@@ -130,6 +130,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                     controller: 'AuthenticateController'
                 }
             }
+        }).state('authenticationMessage', {
+            url: '/authentication/:user/:hash',
+            views: {
+                'navbar': {
+                    templateUrl: './views/navbar.html',
+                    controller: 'NavbarController'
+                },
+                'content': {
+                    templateUrl: './views/authenticationMessage.html',
+                    controller: 'AuthenticationMessageController'
+                }
+            }
         });
-    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate').otherwise('/')
+    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate', '/authentication').otherwise('/')
 }]);
