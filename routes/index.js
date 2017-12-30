@@ -234,31 +234,94 @@ router.post('/api/home', function(req, res) {
 })
 
 /* Get all user components */
-router.get('/api/component', function(req, res) {
-
+router.get('/api/components/get', function(req, res) {
+    if (!req.session.user) {
+        res.json({
+            found: false,
+            message: 'User not logged!'
+        });
+    } else {
+        var userId = req.session.user._id;
+        Component.find({ user: userId }, function(err, components) {
+            if (err) {
+                res.json({
+                    found: false,
+                    message: 'Something went wrong. Please try again!'
+                });
+            } else {
+                res.json({
+                    found: true,
+                    message: 'Successfully found components',
+                    components: components
+                });
+            }
+        });
+    }
 });
 
 
 /* Add component */
-router.post('/api/component', function(req, res) {
+router.post('/api/component/add', function(req, res) {
+    var component = req.body;
+    if (!req.session.user) {
+        res.json({
+            added: false,
+            message: 'User not logged!'
+        });
+    } else {
+        component.user = req.session.user._id;
+        var newcomponent = new Component(component);
 
+        newcomponent.save(function(err, savedComponent) {
+            if (err) {
+                if (err.code === 11000) {
+                    res.json({
+                        added: false,
+                        message: 'This component name already exists!',
+                        danger: ['componentName']
+                    });
+                } else {
+                    console.log(err);
+                    res.json({
+                        added: false,
+                        message: 'Something went wrong. Please try again!'
+                    });
+                }
+
+            } else {
+                res.json({
+                    added: true,
+                    message: 'Successfully added component. Resetting form...!'
+                });
+            }
+        });
+    }
 });
 
 /* Edit sensor */
-router.put('/api/component/:componentId', function(req, res) {
-
+router.post('/api/component/edit/:componentId', function(req, res) {
+    var componentId = req.params.componentId;
+    res.json(componentId);
 });
 
 /* Delete component */
-router.delete('/api/component/:componentId', function(req, res) {
+router.post('/api/component/delete', function(req, res) {
+    var component = req.body;
+    Component.remove({ _id: component._id }, function(err, data) {
+        if (err) {
+            console.log(err);
+            res.json({
+                deleted: false,
+                message: 'Something went wrong. Please try again!'
+            });
 
+        } else {
+            res.json({
+                deleted: true,
+                message: 'Successfully removed component. Resetting form...!'
+            });
+        }
+    });
 });
-
-
-/* Get chart data for specific component */
-router.get('/api/component/data/:componentId', function(req, res) {
-
-});
-
 
 module.exports = router;

@@ -10,3 +10,7 @@ button.inputLabel.disabled.btn-sm {
     margin-left: 30px;
     color: white;
 }
+
+.max-width {
+    width: 100% !important;
+}

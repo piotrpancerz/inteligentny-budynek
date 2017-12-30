@@ -1,4 +1,4 @@
-var app = angular.module('intBuildApp', ['ui.router']);
+var app = angular.module('intBuildApp', ['ui.router', 'nya.bootstrap.select']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 

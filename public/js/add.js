@@ -17,9 +17,9 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             resolution: 1,
             desired: 1,
             regulation: false,
-            icon: ''
+            icon: '',
+            data: []
         }
-        $('select').selectpicker();
 
         $('#componentKindSelect').on('change', function() {
             $('div.form-group.component').addClass('hidden');
@@ -35,7 +35,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                 enabled: true
             });
             $("#componentResolution").slider('refresh');
-            switch ($(this).val()) {
+            switch ($scope.component.type) {
                 case 'Temperature':
                     $scope.icons = [{
                             name: 'Oven',
@@ -185,8 +185,6 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
         $scope.component.range = $('#componentValueRange').slider('getValue');
         $scope.component.resolution = $('#componentResolution').slider('getValue');
         $scope.component.desired = $('#componentDesiredValue').slider('getValue');
-        $scope.component.type = $('#componentKindSelect').val();
-        $scope.component.user = $scope.user;
         if ($scope.component.name == "") {
             $('#finalMessage').text('Name has to be defined!');
             $('#componentName').parent().addClass('has-error');
@@ -197,8 +195,35 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             $('#componentName').parent().removeClass('has-error');
             $('#finalMessage').text('Loading...');
             $('button[type=submit]').prop('disabled', true);
-            // send
-            console.log($scope.component);
+
+            $http.post('/api/component/add', $scope.component).then(function(response) {
+                $('#finalMessage').text(response.data.message);
+                if (response.data.added === true) {
+                    setTimeout(function() {
+                        $('div.form-group.component').addClass('hidden');
+                        $scope.component = {
+                            name: "",
+                            type: undefined,
+                            range: [],
+                            resolution: 1,
+                            desired: 1,
+                            regulation: false,
+                            icon: ''
+                        }
+                        $scope.$apply();
+                        $('#finalMessage').text('');
+                        $('button[type=submit]').prop('disabled', false);
+                    }, 1500);
+
+                } else if (Array.isArray(response.data.danger)) {
+                    for (eachElement in response.data.danger) {
+                        $('#' + response.data.danger[eachElement]).parent().addClass('has-error');
+                    }
+                    $('button[type=submit]').prop('disabled', false);
+                } else {
+                    $('button[type=submit]').prop('disabled', false);
+                }
+            });
         }
     }
 }]);
