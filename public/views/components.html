@@ -3,46 +3,46 @@
         <h3 class="panel-title">Component list</h3>
     </div>
     <div class="panel-body">
-        <!-- <form class="col-md-offset-3 col-md-6"> -->
-        <!-- <div class="form-group table text-center"> -->
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th class="col-md-1"></th>
-                    <th class="col-md-4">Name</th>
-                    <th class="col-md-3">Type</th>
-                    <th class="col-md-2">Current Value</th>
-                    <th class="col-md-2">Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="eachComponent in components">
-                    <td class="text-center">
-                        <img ng-src="{{eachComponent.icon.link}}" alt="" height="42" width="42">
-                    </td>
-                    <td class="">
-                        <h4>{{ eachComponent.name }}</h4>
-                    </td>
-                    <td class="">
-                        <h4>{{ eachComponent.type }}</h4>
-                    </td>
-                    <td class="">
-                        <h4></h4>
-                    </td>
-                    <td class="">
-                        <div class="btn-group btn-group-justified">
-                            <a ng-href="{{ '#!/chart/' + eachComponent._id }}" class="btn btn-default"><i class="fa fa-lg fa-line-chart"></i></a>
-                            <a ng-href="{{ '#!/edit/' + eachComponent._id }}" class="btn btn-primary"><i class="fa fa-lg fa-pencil"></i></a>
-                            <a ng-href="{{ '#!/remove/' + eachComponent._id }}" class="btn btn-danger"><i class="fa fa-lg fa-remove"></i></a>
-                        </div>
-                    </td>
-                </tr>
-
-        </table>
-        <!-- </div> -->
-        <div class="form-group message text-center hidden">
-            <p id="finalMessage"></p>
-        </div>
-        <!-- </form> -->
+        <form ng-submit="load()">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1"></th>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-3">Type</th>
+                        <th class="col-md-2">Current Value</th>
+                        <th class="col-md-2">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="eachComponent in components">
+                        <td class="text-center">
+                            <img ng-src="{{eachComponent.icon.link}}" alt="" height="42" width="42">
+                        </td>
+                        <td class="">
+                            <h4>{{ eachComponent.name }}</h4>
+                        </td>
+                        <td class="">
+                            <h4>{{ eachComponent.type }}</h4>
+                        </td>
+                        <td class="">
+                            <h4></h4>
+                        </td>
+                        <td class="">
+                            <div class="btn-group btn-group-justified">
+                                <a ng-href="{{ '#!/chart/' + eachComponent._id }}" class="btn btn-default"><i class="fa fa-lg fa-line-chart"></i></a>
+                                <a ng-href="{{ '#!/edit/' + eachComponent._id }}" class="btn btn-primary"><i class="fa fa-lg fa-pencil"></i></a>
+                                <a ng-href="{{ '#!/remove/' + eachComponent._id }}" class="btn btn-danger"><i class="fa fa-lg fa-remove"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+            </table>
+            <div class="form-group message text-center hidden">
+                <p id="finalMessage"></p>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Reload</button>
+            </div>
+        </form>
     </div>
 </div>

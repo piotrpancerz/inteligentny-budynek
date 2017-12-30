@@ -11,6 +11,10 @@ app.controller('ComponentsController', ['$scope', '$http', '$location', '$stateP
             };
         });
 
+        $scope.load();
+    }
+
+    $scope.load = function() {
         $http.get('/api/components/get').then(function(response) {
             if (!response.data.found) {
                 $('div.form-group:not(.message)').addClass('hidden');
