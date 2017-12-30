@@ -299,9 +299,48 @@ router.post('/api/component/add', function(req, res) {
 });
 
 /* Edit sensor */
-router.post('/api/component/edit/:componentId', function(req, res) {
-    var componentId = req.params.componentId;
-    res.json(componentId);
+router.post('/api/component/edit', function(req, res) {
+    var component = req.body;
+    var componentId = req.body._id;
+
+    var componentKeys = Object.keys(component);
+    for (eachKey in componentKeys) {
+        switch (componentKeys[eachKey]) {
+            case 'desired':
+            case 'icon':
+            case 'name':
+            case 'range':
+            case 'regulation':
+            case 'resolution':
+                break;
+            default:
+                delete component[componentKeys[eachKey]];
+        }
+    }
+
+    Component.findOneAndUpdate({ _id: componentId }, { $set: component }, function(err, updatedComponent) {
+        if (err) {
+            if (err.code === 11000) {
+                res.json({
+                    added: false,
+                    message: 'This component name already exists!',
+                    danger: ['componentName']
+                });
+            } else {
+                throw err;
+                console.log(err);
+                res.json({
+                    edited: false,
+                    message: 'Something went wrong. Please try again!'
+                });
+            }
+        } else {
+            res.json({
+                edited: true,
+                message: 'Successfully edited component. Resetting form...!',
+            });
+        }
+    });
 });
 
 /* Delete component */
