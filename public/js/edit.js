@@ -216,41 +216,40 @@ app.controller('EditController', ['$scope', '$http', '$location', '$stateParams'
             $('#componentName').parent().removeClass('has-error');
             $('#finalMessage').text('Loading...');
             $('button[type=submit]').prop('disabled', true);
-            console.log($scope.selectedComponent);
 
-            // $http.post('/api/component/edit', $scope.selectedComponent).then(function(response) {
-            //     $('#finalMessage').text(response.data.message);
-            //     if (response.data.edited === true) {
-            //         setTimeout(function() {
-            //             $http.get('/api/components/get').then(function(response) {
-            //                 if (!response.data.found) {
-            //                     $('div.form-group:not(.message)').addClass('hidden');
-            //                     $('div.message').removeClass('hidden');
-            //                     $('#finalMessage').text(reponse.data.message);
-            //                 } else if (response.data.components === undefined || response.data.components.length == 0) {
-            //                     $('div.form-group:not(.message)').addClass('hidden');
-            //                     $('div.message').removeClass('hidden');
-            //                     $('#finalMessage').text('There is no components to edit.');
-            //                 } else {
-            //                     $scope.components = response.data.components;
-            //                 }
-            //             });
-            //             $('div.form-group.component').addClass('hidden');
-            //             $scope.selectedComponent = undefined;
-            //             $scope.$apply();
-            //             $('#finalMessage').text('');
-            //             $('button[type=submit]').prop('disabled', false);
-            //         }, 1500);
+            $http.post('/api/component/edit', $scope.selectedComponent).then(function(response) {
+                $('#finalMessage').text(response.data.message);
+                if (response.data.edited === true) {
+                    setTimeout(function() {
+                        $http.get('/api/components/get').then(function(response) {
+                            if (!response.data.found) {
+                                $('div.form-group:not(.message)').addClass('hidden');
+                                $('div.message').removeClass('hidden');
+                                $('#finalMessage').text(reponse.data.message);
+                            } else if (response.data.components === undefined || response.data.components.length == 0) {
+                                $('div.form-group:not(.message)').addClass('hidden');
+                                $('div.message').removeClass('hidden');
+                                $('#finalMessage').text('There is no components to edit.');
+                            } else {
+                                $scope.components = response.data.components;
+                            }
+                        });
+                        $('div.form-group.component').addClass('hidden');
+                        $scope.selectedComponent = undefined;
+                        $scope.$apply();
+                        $('#finalMessage').text('');
+                        $('button[type=submit]').prop('disabled', false);
+                    }, 1500);
 
-            //     } else if (Array.isArray(response.data.danger)) {
-            //         for (eachElement in response.data.danger) {
-            //             $('#' + response.data.danger[eachElement]).parent().addClass('has-error');
-            //         }
-            //         $('button[type=submit]').prop('disabled', false);
-            //     } else {
-            //         $('button[type=submit]').prop('disabled', false);
-            //     }
-            // });
+                } else if (Array.isArray(response.data.danger)) {
+                    for (eachElement in response.data.danger) {
+                        $('#' + response.data.danger[eachElement]).parent().addClass('has-error');
+                    }
+                    $('button[type=submit]').prop('disabled', false);
+                } else {
+                    $('button[type=submit]').prop('disabled', false);
+                }
+            });
         }
     }
 }]);
