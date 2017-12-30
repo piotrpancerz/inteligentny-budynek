@@ -69,7 +69,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             }
         })
         .state('charts', {
-            url: '/charts',
+            url: '/chart/:componentId',
             views: {
                 'navbar': {
                     templateUrl: './views/navbar.html',
@@ -95,7 +95,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             }
         })
         .state('edit', {
-            url: '/edit',
+            url: '/edit/:componentId',
             views: {
                 'navbar': {
                     templateUrl: './views/navbar.html',
@@ -107,7 +107,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         }).state('remove', {
-            url: '/remove',
+            url: '/remove/:componentId',
             views: {
                 'navbar': {
                     templateUrl: './views/navbar.html',
@@ -131,5 +131,5 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         });
-    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/charts', '/add', '/edit', '/remove', '/authenticate').otherwise('/')
+    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate').otherwise('/')
 }]);

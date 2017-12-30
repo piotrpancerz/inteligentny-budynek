@@ -259,6 +259,33 @@ router.get('/api/components/get', function(req, res) {
     }
 });
 
+/* Get component by id */
+router.get('/api/component/get/:componentId', function(req, res) {
+    var componentId = req.params.componentId;
+    if (!req.session.user) {
+        res.json({
+            found: false,
+            message: 'User not logged!'
+        });
+    } else {
+        var userId = req.session.user._id;
+        Component.findOne({ user: userId, _id: componentId }, function(err, component) {
+            if (err) {
+                res.json({
+                    found: false,
+                    message: 'Something went wrong. Please try again!'
+                });
+            } else {
+                res.json({
+                    found: true,
+                    message: 'Successfully found component',
+                    component: component
+                });
+            }
+        });
+    }
+});
+
 
 /* Add component */
 router.post('/api/component/add', function(req, res) {
@@ -291,14 +318,14 @@ router.post('/api/component/add', function(req, res) {
             } else {
                 res.json({
                     added: true,
-                    message: 'Successfully added component. Resetting form...!'
+                    message: 'Successfully added component. Redirecting to Component List...!'
                 });
             }
         });
     }
 });
 
-/* Edit sensor */
+/* Edit component */
 router.post('/api/component/edit', function(req, res) {
     var component = req.body;
     var componentId = req.body._id;
@@ -337,7 +364,7 @@ router.post('/api/component/edit', function(req, res) {
         } else {
             res.json({
                 edited: true,
-                message: 'Successfully edited component. Resetting form...!',
+                message: 'Changes saved!',
             });
         }
     });
@@ -357,7 +384,7 @@ router.post('/api/component/delete', function(req, res) {
         } else {
             res.json({
                 deleted: true,
-                message: 'Successfully removed component. Resetting form...!'
+                message: 'Successfully removed component. Redirecting to Component List...'
             });
         }
     });

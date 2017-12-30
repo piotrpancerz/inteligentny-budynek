@@ -53,11 +53,6 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'link': '#!/components',
                     'class': '',
                     'icon': 'fa-list'
-                }, {
-                    'name': 'Charts',
-                    'link': '#!/charts',
-                    'class': '',
-                    'icon': 'fa-line-chart'
                 }];
                 break;
             case '/components':
@@ -71,34 +66,78 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'link': '#!/components',
                     'class': 'active',
                     'icon': 'fa-list'
-                }, {
-                    'name': 'Charts',
-                    'link': '#!/charts',
-                    'class': '',
-                    'icon': 'fa-line-chart'
                 }];
                 break;
-            case '/charts':
+            case ($location.$$url.match(/^\/chart\//) || {}).input:
                 $scope.navbarMain = [{
-                    'name': 'Home',
-                    'link': '#!/home',
-                    'class': '',
-                    'icon': 'fa-home'
-                }, {
-                    'name': 'Components',
+                    'name': 'Go Back',
                     'link': '#!/components',
                     'class': '',
-                    'icon': 'fa-list'
+                    'icon': 'fa-chevron-left'
                 }, {
-                    'name': 'Charts',
-                    'link': '#!/charts',
+                    'name': 'Chart',
+                    'link': $location.$$url,
                     'class': 'active',
                     'icon': 'fa-line-chart'
+                }, {
+                    'name': 'Edit',
+                    'link': '#!' + $location.$$url.replace('chart', 'edit'),
+                    'class': '',
+                    'icon': 'fa-pencil'
+                }, {
+                    'name': 'Remove',
+                    'link': '#!' + $location.$$url.replace('chart', 'remove'),
+                    'class': '',
+                    'icon': 'fa-remove'
+                }];
+                break;
+            case ($location.$$url.match(/^\/edit\//) || {}).input:
+                $scope.navbarMain = [{
+                    'name': 'Go Back',
+                    'link': '#!/components',
+                    'class': '',
+                    'icon': 'fa-chevron-left'
+                }, {
+                    'name': 'Chart',
+                    'link': '#!' + $location.$$url.replace('edit', 'chart'),
+                    'class': '',
+                    'icon': 'fa-line-chart'
+                }, {
+                    'name': 'Edit',
+                    'link': $location.$$url,
+                    'class': 'active',
+                    'icon': 'fa-pencil'
+                }, {
+                    'name': 'Remove',
+                    'link': '#!' + $location.$$url.replace('edit', 'remove'),
+                    'class': '',
+                    'icon': 'fa-remove'
+                }];
+                break;
+            case ($location.$$url.match(/^\/remove\//) || {}).input:
+                $scope.navbarMain = [{
+                    'name': 'Go Back',
+                    'link': '#!/components',
+                    'class': '',
+                    'icon': 'fa-chevron-left'
+                }, {
+                    'name': 'Chart',
+                    'link': '#!' + $location.$$url.replace('remove', 'chart'),
+                    'class': '',
+                    'icon': 'fa-line-chart'
+                }, {
+                    'name': 'Edit',
+                    'link': '#!' + $location.$$url.replace('remove', 'edit'),
+                    'class': '',
+                    'icon': 'fa-pencil'
+                }, {
+                    'name': 'Remove',
+                    'link': $location.$$url,
+                    'class': 'active',
+                    'icon': 'fa-remove'
                 }];
                 break;
             case '/add':
-            case '/edit':
-            case '/remove':
                 $scope.navbarMain = [{
                     'name': 'Home',
                     'link': '#!/home',
@@ -109,11 +148,6 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'link': '#!/components',
                     'class': '',
                     'icon': 'fa-list'
-                }, {
-                    'name': 'Charts',
-                    'link': '#!/charts',
-                    'class': '',
-                    'icon': 'fa-line-chart'
                 }];
                 break;
             case '/authenticate':
@@ -144,16 +178,6 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'class': '',
                     'icon': 'fa-plus'
                 }, {
-                    'name': 'Edit',
-                    'click': $scope.edit,
-                    'class': '',
-                    'icon': 'fa-pencil'
-                }, {
-                    'name': 'Remove',
-                    'click': $scope.remove,
-                    'class': '',
-                    'icon': 'fa-remove'
-                }, {
                     'name': 'Logout',
                     'click': $scope.logout,
                     'class': '',
@@ -167,62 +191,6 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'class': 'active',
                     'icon': 'fa-plus'
                 }, {
-                    'name': 'Edit',
-                    'click': $scope.edit,
-                    'class': '',
-                    'icon': 'fa-pencil'
-                }, {
-                    'name': 'Remove',
-                    'click': $scope.remove,
-                    'class': '',
-                    'icon': 'fa-remove'
-                }, {
-                    'name': 'Logout',
-                    'click': $scope.logout,
-                    'class': '',
-                    'icon': 'fa-sign-out'
-                }];
-                break;
-            case '/edit':
-                $scope.navbarRight = [{
-                    'name': 'Add',
-                    'click': $scope.add,
-                    'class': '',
-                    'icon': 'fa-plus'
-                }, {
-                    'name': 'Edit',
-                    'click': $scope.edit,
-                    'class': 'active',
-                    'icon': 'fa-pencil'
-                }, {
-                    'name': 'Remove',
-                    'click': $scope.remove,
-                    'class': '',
-                    'icon': 'fa-remove'
-                }, {
-                    'name': 'Logout',
-                    'click': $scope.logout,
-                    'class': '',
-                    'icon': 'fa-sign-out'
-                }];
-                break;
-            case '/remove':
-                $scope.navbarRight = [{
-                    'name': 'Add',
-                    'click': $scope.add,
-                    'class': '',
-                    'icon': 'fa-plus'
-                }, {
-                    'name': 'Edit',
-                    'click': $scope.edit,
-                    'class': '',
-                    'icon': 'fa-pencil'
-                }, {
-                    'name': 'Remove',
-                    'click': $scope.remove,
-                    'class': 'active',
-                    'icon': 'fa-remove'
-                }, {
                     'name': 'Logout',
                     'click': $scope.logout,
                     'class': '',
@@ -230,6 +198,9 @@ app.controller('NavbarController', function($scope, $http, $location) {
                 }];
                 break;
             case '/authenticate':
+            case ($location.$$url.match(/^\/chart\//) || {}).input:
+            case ($location.$$url.match(/^\/edit\//) || {}).input:
+            case ($location.$$url.match(/^\/remove\//) || {}).input:
                 $scope.navbarRight = [{
                     'name': 'Logout',
                     'click': $scope.logout,
@@ -252,12 +223,6 @@ app.controller('NavbarController', function($scope, $http, $location) {
     }
     $scope.add = function() {
         window.location.replace('#!/add');
-    }
-    $scope.edit = function() {
-        window.location.replace('#!/edit');
-    }
-    $scope.remove = function() {
-        window.location.replace('#!/remove');
     }
 
 });

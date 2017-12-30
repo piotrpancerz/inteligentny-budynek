@@ -9,6 +9,7 @@
                     <tr ng-repeat="eachComponent in components">
                         <td>{{ eachComponent.name }}</td>
                         <td>{{ eachComponent.type }}</td>
+                        <td><a ng-href="{{ '#!/chart/' + eachComponent._id }}">Link</a></td>
                     </tr>
                 </table>
             </div>

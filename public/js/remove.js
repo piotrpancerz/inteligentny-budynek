@@ -1,6 +1,18 @@
 var app = angular.module('intBuildApp');
 
 app.controller('RemoveController', ['$scope', '$http', '$location', '$stateParams', function($scope, $http, $location, $stateParams) {
+    $scope.load = function() {
+        $http.get('/api/component/get/' + $scope.componentId).then(function(response) {
+            if (!response.data.found) {
+                window.location.replace('#!/components');
+            } else if (response.data.component === undefined || response.data.component.length == 0) {
+                window.location.replace('#!/components');
+            } else {
+                $scope.component = response.data.component;
+            }
+        });
+    }
+
     $scope.initRemove = function() {
         $http.get('/api/user/checklog').then(function(response) {
             if (!response.data.logged || !response.data.user.active) {
@@ -9,53 +21,18 @@ app.controller('RemoveController', ['$scope', '$http', '$location', '$stateParam
                 $scope.user = response.data.user;
             };
         });
-        $http.get('/api/components/get').then(function(response) {
-            if (!response.data.found) {
-                $('div.form-group:not(.message)').addClass('hidden');
-                $('#finalMessage').text(reponse.data.message);
-            } else {
-                $scope.components = response.data.components;
-                if ($scope.components === undefined || $scope.components.length == 0) {
-                    $('div.form-group:not(.message)').addClass('hidden');
-                    $('div.message').removeClass('hidden');
-                    $('#finalMessage').text('There is no components to remove.');
-                }
-            }
-        });
-        $('#selectComponent').on('change', function() {
-            if ($scope.selectedComponent) {
-                $('div.form-group').removeClass('hidden');
-            } else {
-                $('div.form-group:not(.mainSelect)').addClass('hidden');
-            }
-        })
+        $scope.componentId = $location.$$url.replace('/remove/', '');
+        $scope.load();
     }
 
     $scope.remove = function() {
         $('#finalMessage').text('Loading...');
         $('button[type=submit]').prop('disabled', true);
-        $http.post('/api/component/delete', $scope.selectedComponent).then(function(response) {
+        $http.post('/api/component/delete', $scope.component).then(function(response) {
             $('#finalMessage').text(response.data.message);
             if (response.data.deleted === true) {
                 setTimeout(function() {
-                    $http.get('/api/components/get').then(function(response) {
-                        if (!response.data.found) {
-                            $('div.form-group:not(.message)').addClass('hidden');
-                            $('#finalMessage').text(reponse.data.message);
-                        } else {
-                            $scope.components = response.data.components;
-                            if ($scope.components === undefined || $scope.components.length == 0) {
-                                $('div.form-group:not(.message)').addClass('hidden');
-                                $('div.message').removeClass('hidden');
-                                $('#finalMessage').text('There is no components to remove.');
-                            }
-                        }
-                    });
-                    $('div.form-group:not(.mainSelect').addClass('hidden');
-                    $scope.selectedComponent = undefined
-                    $scope.$apply();
-                    $('#finalMessage').text('');
-                    $('button[type=submit]').prop('disabled', false);
+                    window.location.replace('#!/components');
                 }, 1500);
             } else {
                 $('button[type=submit]').prop('disabled', false);

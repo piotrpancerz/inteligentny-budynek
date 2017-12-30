@@ -1,43 +1,35 @@
 <div class="panel panel-default" ng-init="initEdit()">
     <div class="panel-heading">
-        <h3 class="panel-title">Edit component</h3>
+        <h3 class="panel-title">{{'Edit component - "' + component.name + '"'}}</h3>
     </div>
     <div class="panel-body">
         <form class="col-md-offset-3 col-md-6" ng-submit="edit()">
-            <div class="form-group mainSelect">
-                <label for="selectComponent"> Component : </label>
-                <div>
-                    <ol class="nya-bs-select max-width" id="selectComponent" ng-model="selectedComponent">
-                        <li nya-bs-option="eachComponent in components"><a>{{eachComponent.name}}</a></li>
-                    </ol>
-                </div>
-            </div>
             <div class="form-group component name hidden">
                 <label for="componentName">Component Name :</label>
-                <input class="form-control" id="componentName" ng-model='selectedComponent.name'></input>
+                <input class="form-control" id="componentName" ng-model='component.name'></input>
             </div>
             <div class="form-group component valueRange hidden">
                 <label for="componentValueRange">Value Range :</label>
                 <div class="text-center">
-                    <slider ng-model='selectedComponent.range' class="form-control" id="componentValueRange"></slider>
+                    <slider ng-model='component.range' class="form-control" id="componentValueRange"></slider>
                     <button id="valueRangeUnit" class="btn btn-sm btn-primary disabled inputLabel"></button>
                 </div>
             </div>
             <div class="form-group component resolution hidden">
                 <label for="componentResolution">Resolution :</label>
                 <div class="text-center">
-                    <slider ng-model='selectedComponent.resolution' class="form-control" id="componentResolution"></slider>
+                    <slider ng-model='component.resolution' class="form-control" id="componentResolution"></slider>
                 </div>
             </div>
             <div class="form-group component desiredValue hidden">
                 <label for="componentDesiredValue">Desired Value :</label>
                 <div class="text-center">
-                    <slider ng-model='selectedComponent.desired' class="form-control" id="componentDesiredValue"></slider>
+                    <slider ng-model='component.desired' class="form-control" id="componentDesiredValue"></slider>
                     <button id="desiredValueUnit" class="btn btn-sm btn-primary disabled inputLabel"></button>
                 </div>
                 <div class="form-check text-center">
                     <label class="form-check-label">
-                          <input ng-model="selectedComponent.regulation" id="componentDesiredValueActive" class="form-check-input" type="checkbox" value="">
+                          <input ng-model="component.regulation" id="componentDesiredValueActive" class="form-check-input" type="checkbox" value="">
                             Activate Regulation
                         </label>
                 </div>
@@ -45,7 +37,7 @@
             <div class="form-group component icons hidden">
                 <label>Icon :</label>
                 <div class="text-center">
-                    <label ng-repeat="eachIcon in icons" class="radio-inline"><input type="radio" name="optradio" ng-model="selectedComponent.icon" ng-value="{{eachIcon}}"><img ng-src="{{eachIcon.link}}" alt="" height="42" width="42"></label>
+                    <label ng-repeat="eachIcon in icons" class="radio-inline"><input type="radio" name="optradio" ng-model="component.icon" ng-value="{{eachIcon}}"><img ng-src="{{eachIcon.link}}" alt="" height="42" width="42"></label>
                 </div>
             </div>
 

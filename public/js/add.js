@@ -200,19 +200,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                 $('#finalMessage').text(response.data.message);
                 if (response.data.added === true) {
                     setTimeout(function() {
-                        $('div.form-group.component').addClass('hidden');
-                        $scope.component = {
-                            name: "",
-                            type: undefined,
-                            range: [],
-                            resolution: 1,
-                            desired: 1,
-                            regulation: false,
-                            icon: ''
-                        }
-                        $scope.$apply();
-                        $('#finalMessage').text('');
-                        $('button[type=submit]').prop('disabled', false);
+                        window.location.replace('#!/components');
                     }, 1500);
 
                 } else if (Array.isArray(response.data.danger)) {
