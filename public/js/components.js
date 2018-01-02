@@ -10,7 +10,6 @@ app.controller('ComponentsController', ['$scope', '$http', '$location', '$stateP
                 $scope.user = response.data.user;
             };
         });
-
         $scope.load();
     }
 
