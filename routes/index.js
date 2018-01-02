@@ -32,8 +32,21 @@ mailer.init({
     }
 });
 
-
-
+/*Updating sensors' values */
+var iterationIntervalInSeconds = 5;
+var valueChangeMaxTempo = 3;
+setInterval(function() {
+    Component.find({}, function(err, components) {
+        if (err) {
+            console.log(err);
+        } else {
+            for (eachComponent in components) {
+                var tmpComponent = components[eachComponent];
+                updateComponentValue(tmpComponent, iterationIntervalInSeconds, valueChangeMaxTempo);
+            }
+        }
+    });
+}, 1000 * iterationIntervalInSeconds)
 
 /* Check if user is logged in */
 router.get('/api/user/checklog', function(req, res) {
@@ -298,6 +311,9 @@ router.post('/api/component/add', function(req, res) {
     } else {
         component.user = req.session.user._id;
         var newcomponent = new Component(component);
+        newcomponent.creation_date = new Date();
+        newcomponent.data = [];
+        newcomponent.data.push(defineComponentInitVal(newcomponent.range, newcomponent.resolution));
 
         newcomponent.save(function(err, savedComponent) {
             if (err) {
@@ -389,5 +405,49 @@ router.post('/api/component/delete', function(req, res) {
         }
     });
 });
+
+function decimalPlaces(num) {
+    var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) { return 0; }
+    return Math.max(
+        0,
+        // Number of digits right of decimal point.
+        (match[1] ? match[1].length : 0)
+        // Adjust for scientific notation.
+        -
+        (match[2] ? +match[2] : 0));
+}
+
+function defineComponentInitVal(range, resolution) {
+    return parseFloat(Math.round((Math.random() * (range[1] - range[0]) + range[0]) / resolution) * resolution).toFixed(decimalPlaces(resolution))
+}
+
+function updateComponentValue(component, iterationIntervalInSeconds, valueChangeMaxTempo) {
+    var currentValue = component.data[component.data.length - 1];
+    var range = component.range;
+    var resolution = component.resolution;
+    var regulation = component.regulation;
+
+    if (regulation === true) {
+        var desiredValue = component.desired;
+        if (currentValue < desiredValue) {
+            /* Set current value by adding positive factor ( 0, +valueChangeMaxTempo ) */
+            newCurrentValue = parseFloat(Math.round((Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
+        } else if (currentValue > desiredValue) {
+            /* Set current value by adding negative factor ( -valueChangeMaxTempo, 0 ) */
+            newCurrentValue = parseFloat(Math.round(-(Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
+        } else {
+            /* Set current value directly as desired */
+            newCurrentValue = desiredValue;
+        }
+    } else {
+        /* Set current value by adding random factor ( -valueChangeMaxTempo, +valueChangeMaxTempo ) */
+        newCurrentValue = parseFloat(Math.round((Math.random() * valueChangeMaxTempo * 2 - valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
+    }
+    newCurrentValue = Number(newCurrentValue);
+    console.log(newCurrentValue);
+    console.log(typeof newCurrentValue);
+    return component.data;
+}
 
 module.exports = router;

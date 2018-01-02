@@ -29,6 +29,28 @@ app.controller('ComponentsController', ['$scope', '$http', '$location', '$stateP
                 $('.form-group.message').addClass('hidden');
                 $('#finalMessage').text('');
                 $scope.components = response.data.components;
+                for (eachComponent in $scope.components) {
+                    var currentValueIndex = $scope.components[eachComponent].data.length - 1;
+                    $scope.components[eachComponent].currentValue = $scope.components[eachComponent].data[currentValueIndex];
+                    switch ($scope.components[eachComponent].type) {
+                        case 'Temperature':
+                            $scope.components[eachComponent].currentValue += ' &#x2103';
+                            break;
+                        case 'Humidity':
+                            $scope.components[eachComponent].currentValue += ' %';
+                            break;
+                        case 'Pressure':
+                            $scope.components[eachComponent].currentValue += ' hPa';
+                            break;
+                        case 'Binary Switch':
+                            if ($scope.components[eachComponent].currentValue == 0) {
+                                $scope.components[eachComponent].currentValue = 'off';
+                            } else {
+                                $scope.components[eachComponent].currentValue = 'on';
+                            }
+                            break;
+                    }
+                }
             }
         });
     }

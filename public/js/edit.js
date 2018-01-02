@@ -145,7 +145,7 @@ app.controller('EditController', ['$scope', '$http', '$location', '$stateParams'
                         });
                         $("#componentDesiredValue").slider('refresh');
                         $("#componentResolution").slider('disable');
-                        $('button.inputLabel').text('bin');
+                        $('button.inputLabel').text('off/on');
                         break;
                 };
             }

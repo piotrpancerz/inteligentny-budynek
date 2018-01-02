@@ -17,8 +17,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             resolution: 1,
             desired: 1,
             regulation: false,
-            icon: '',
-            data: []
+            icon: ''
         }
 
         $('#componentKindSelect').on('change', function() {
@@ -146,7 +145,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                     $("#componentDesiredValue").slider({ min: 0, max: 1, enabled: false });
                     $("#componentDesiredValue").slider('refresh');
                     $("#componentResolution").slider('disable');
-                    $('button.inputLabel').text('bin');
+                    $('button.inputLabel').text('off/on');
                     break;
             };
         });

@@ -9,7 +9,8 @@ const ComponentSchema = new mongoose.Schema({
     desired: { type: Number, required: true },
     regulation: { type: Boolean, required: true },
     icon: { type: Object, required: true },
-    data: { type: Array }
+    data: { type: [Number], required: true },
+    creation_date: { type: Date, required: true }
 });
 
 ComponentSchema.index({ user: 1, name: 1 }, { unique: true });
