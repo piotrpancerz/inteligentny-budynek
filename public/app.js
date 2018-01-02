@@ -1,4 +1,4 @@
-var app = angular.module('intBuildApp', ['ui.router', 'nya.bootstrap.select', 'ngSanitize']);
+var app = angular.module('intBuildApp', ['ui.router', 'nya.bootstrap.select', 'ngSanitize', 'chart.js']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 

@@ -9,6 +9,7 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                 window.location.replace('#!/components');
             } else {
                 $scope.component = response.data.component;
+                $scope.data = response.data.component.data;
             }
         });
     }
@@ -21,7 +22,13 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                 $scope.user = response.data.user;
             };
         });
+        $scope.data = [];
         $scope.componentId = $location.$$url.replace('/chart/', '');
         $scope.load();
+        // var chart = $("#lineChart");
+        // var myChart = new Chart(chart, {
+        //     type: 'line',
+        //     data: $scope.component.data
+        // });
     }
 }]);
