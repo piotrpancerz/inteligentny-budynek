@@ -33,8 +33,7 @@ mailer.init({
 });
 
 /*Updating sensors' values */
-var iterationIntervalInSeconds = 5;
-var valueChangeMaxTempo = 3;
+var iterationIntervalInSeconds = 60;
 setInterval(function() {
     Component.find({}, function(err, components) {
         if (err) {
@@ -42,7 +41,12 @@ setInterval(function() {
         } else {
             for (eachComponent in components) {
                 var tmpComponent = components[eachComponent];
-                updateComponentValue(tmpComponent, iterationIntervalInSeconds, valueChangeMaxTempo);
+                var newDataArray = defineNewComponentValues(tmpComponent, iterationIntervalInSeconds);
+                Component.findOneAndUpdate({ _id: tmpComponent._id }, { $set: { data: newDataArray } }, function(err, data) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
             }
         }
     });
@@ -422,32 +426,71 @@ function defineComponentInitVal(range, resolution) {
     return parseFloat(Math.round((Math.random() * (range[1] - range[0]) + range[0]) / resolution) * resolution).toFixed(decimalPlaces(resolution))
 }
 
-function updateComponentValue(component, iterationIntervalInSeconds, valueChangeMaxTempo) {
+function defineNewComponentValues(component, iterationIntervalInSeconds) {
     var currentValue = component.data[component.data.length - 1];
     var range = component.range;
     var resolution = component.resolution;
     var regulation = component.regulation;
+    var type = component.type;
+    var data = component.data;
 
-    if (regulation === true) {
-        var desiredValue = component.desired;
-        if (currentValue < desiredValue) {
-            /* Set current value by adding positive factor ( 0, +valueChangeMaxTempo ) */
-            newCurrentValue = parseFloat(Math.round((Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
-        } else if (currentValue > desiredValue) {
-            /* Set current value by adding negative factor ( -valueChangeMaxTempo, 0 ) */
-            newCurrentValue = parseFloat(Math.round(-(Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
-        } else {
-            /* Set current value directly as desired */
-            newCurrentValue = desiredValue;
+    var currentDate = new Date();
+    var createDate = component.creation_date;
+    var timeDiff = Math.abs(currentDate.getTime() - createDate.getTime());
+    var desiredDataArrayLength = Math.ceil(timeDiff / (1000 * 60));
+    var currentDataArrayLength = component.data.length;
+
+    var lackingIterations = desiredDataArrayLength - currentDataArrayLength;
+    for (var lackingIterationsIndex = 0; lackingIterationsIndex < lackingIterations; lackingIterationsIndex++) {
+        if (type == 'Temperature') {
+            valueChangeMaxTempo = Math.floor((range[1] - range[0]) / 10);
+        } else if (type == 'Humidity') {
+            valueChangeMaxTempo = Math.floor((range[1] - range[0]) / 10);
+        } else if (type == 'Pressure') {
+            valueChangeMaxTempo = 3;
+        } else if (type == 'Binary Switch') {
+            valueChangeMaxTempo = 1;
         }
-    } else {
-        /* Set current value by adding random factor ( -valueChangeMaxTempo, +valueChangeMaxTempo ) */
-        newCurrentValue = parseFloat(Math.round((Math.random() * valueChangeMaxTempo * 2 - valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution));
+        if (regulation === true) {
+            var desiredValue = component.desired;
+            if (currentValue < desiredValue) {
+                /* Set current value by adding positive factor ( 0, +valueChangeMaxTempo ) */
+                if (type == 'Binary Switch') {
+                    newCurrentValue = 1
+                } else {
+                    newCurrentValue = +(+currentValue) + +(parseFloat(Math.round((Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution)));
+                }
+            } else if (currentValue > desiredValue) {
+                /* Set current value by adding negative factor ( -valueChangeMaxTempo, 0 ) */
+                if (type == 'Binary Switch') {
+                    newCurrentValue = 0
+                } else {
+                    newCurrentValue = +(+currentValue) + +(parseFloat(Math.round(-(Math.random() * valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution)));
+                }
+            } else {
+                /* Set current value directly as desired */
+                newCurrentValue = desiredValue;
+            }
+        } else {
+            /* Set current value by adding random factor ( -valueChangeMaxTempo, +valueChangeMaxTempo ) */
+            if (type == 'Binary Switch') {
+                newCurrentValue = Math.round(Math.random());
+            } else {
+                newCurrentValue = +(+currentValue) + +(parseFloat(Math.round((Math.random() * valueChangeMaxTempo * 2 - valueChangeMaxTempo) / resolution) * resolution).toFixed(decimalPlaces(resolution)));
+            }
+
+        }
+        newCurrentValue = parseFloat(newCurrentValue).toFixed(decimalPlaces(resolution));
+        newCurrentValue = Number(newCurrentValue);
+
+        if (newCurrentValue > range[1]) {
+            newCurrentValue = range[1];
+        } else if (newCurrentValue < range[0]) {
+            newCurrentValue = range[0];
+        }
+        data.push(newCurrentValue);
     }
-    newCurrentValue = Number(newCurrentValue);
-    console.log(newCurrentValue);
-    console.log(typeof newCurrentValue);
-    return component.data;
+    return data;
 }
 
 module.exports = router;
