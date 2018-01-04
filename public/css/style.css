@@ -14,3 +14,11 @@ button.inputLabel.disabled.btn-sm {
 .max-width {
     width: 100% !important;
 }
+
+.slider.slider-horizontal {
+    width: 80% !important;
+}
+
+.inivisible {
+    visibility: hidden;
+}

@@ -3,7 +3,7 @@
         <h3 class="panel-title">{{'Edit component - "' + component.name + '"'}}</h3>
     </div>
     <div class="panel-body">
-        <form class="col-md-offset-3 col-md-6" ng-submit="edit()">
+        <form class="col-md-offset-3 col-md-6 editForm" ng-submit="edit()">
             <div class="form-group component name hidden">
                 <label for="componentName">Component Name :</label>
                 <input class="form-control" id="componentName" ng-model='component.name'></input>
@@ -19,6 +19,7 @@
                 <label for="componentResolution">Resolution :</label>
                 <div class="text-center">
                     <slider ng-model='component.resolution' class="form-control" id="componentResolution"></slider>
+                    <button id="valueRangeUnit" class="btn btn-sm btn-primary disabled inputLabel invisible"></button>
                 </div>
             </div>
             <div class="form-group component desiredValue hidden">
@@ -40,7 +41,6 @@
                     <label ng-repeat="eachIcon in icons" class="radio-inline"><input type="radio" name="optradio" ng-model="component.icon" ng-value="{{eachIcon}}"><img ng-src="{{eachIcon.link}}" alt="" height="42" width="42"></label>
                 </div>
             </div>
-
             <div class="form-group component text-center hidden">
                 <button type="submit" class="btn btn-default">Save</button>
             </div>

@@ -75,7 +75,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'class': '',
                     'icon': 'fa-chevron-left'
                 }, {
-                    'name': 'Chart',
+                    'name': 'Charts',
                     'link': $location.$$url,
                     'class': 'active',
                     'icon': 'fa-line-chart'
@@ -98,7 +98,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'class': '',
                     'icon': 'fa-chevron-left'
                 }, {
-                    'name': 'Chart',
+                    'name': 'Charts',
                     'link': '#!' + $location.$$url.replace('edit', 'chart'),
                     'class': '',
                     'icon': 'fa-line-chart'
@@ -121,7 +121,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
                     'class': '',
                     'icon': 'fa-chevron-left'
                 }, {
-                    'name': 'Chart',
+                    'name': 'Charts',
                     'link': '#!' + $location.$$url.replace('remove', 'chart'),
                     'class': '',
                     'icon': 'fa-line-chart'

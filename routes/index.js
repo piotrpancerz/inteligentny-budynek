@@ -42,7 +42,7 @@ setInterval(function() {
             for (eachComponent in components) {
                 var tmpComponent = components[eachComponent];
                 var newDataArray = defineNewComponentValues(tmpComponent, iterationIntervalInSeconds);
-                Component.findOneAndUpdate({ _id: tmpComponent._id }, { $set: { data: newDataArray } }, function(err, data) {
+                Component.findOneAndUpdate({ _id: tmpComponent._id }, { $set: { data: newDataArray[0], regulation_history: newDataArray[1] } }, function(err, data) {
                     if (err) {
                         console.log(err);
                     }
@@ -318,6 +318,8 @@ router.post('/api/component/add', function(req, res) {
         newcomponent.creation_date = new Date();
         newcomponent.data = [];
         newcomponent.data.push(defineComponentInitVal(newcomponent.range, newcomponent.resolution));
+        newcomponent.regulation_history = [];
+        newcomponent.regulation_history.push(newcomponent.regulation);
 
         newcomponent.save(function(err, savedComponent) {
             if (err) {
@@ -433,6 +435,7 @@ function defineNewComponentValues(component, iterationIntervalInSeconds) {
     var regulation = component.regulation;
     var type = component.type;
     var data = component.data;
+    var regulationHistory = component.regulation_history;
 
     var currentDate = new Date();
     var createDate = component.creation_date;
@@ -489,8 +492,9 @@ function defineNewComponentValues(component, iterationIntervalInSeconds) {
             newCurrentValue = range[0];
         }
         data.push(newCurrentValue);
+        regulationHistory.push(regulation);
     }
-    return data;
+    return [data, regulationHistory];
 }
 
 module.exports = router;
