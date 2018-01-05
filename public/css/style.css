@@ -22,3 +22,23 @@ button.inputLabel.disabled.btn-sm {
 .inivisible {
     visibility: hidden;
 }
+
+canvas#regulationChart,
+canvas#rangeChart {
+    padding: 0;
+    margin: auto;
+}
+
+canvas#regulationChart {
+    max-width: 800px;
+    max-height: 400px;
+}
+
+canvas#rangeChart {
+    max-width: 800px;
+    max-height: 400px;
+}
+
+.slider {
+    z-index: 0;
+}

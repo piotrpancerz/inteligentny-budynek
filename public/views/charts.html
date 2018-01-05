@@ -8,32 +8,32 @@
                 <label for="chartKindSelect">Chart Kind :</label>
                 <div>
                     <ol class="nya-bs-select" id="chartKindSelect" ng-model="chartKind">
-                        <li class="nya-bs-option" data-value="Time View"><a> Time View</a></li>
-                        <li class="nya-bs-option" data-value="Regulation Percentage"><a> Regulation Time Percentage</a></li>
-                        <li class="nya-bs-option" data-value="Value Range Percentage"><a>Value Range Percentage</a></li>
+                        <li class="nya-bs-option" data-value="Time View"><a>Time view</a></li>
+                        <li class="nya-bs-option" data-value="Regulation Percentage"><a>Regulation factor over time</a></li>
+                        <li class="nya-bs-option" data-value="Value Range Percentage"><a>Occurance of certain values</a></li>
                     </ol>
                 </div>
             </div>
-            <div class="form-group max-width text-center line-chart regulation-chart hidden">
+            <div class="form-group max-width text-center timeRange line-chart regulation-chart value-chart hidden">
                 <label for="timeRange">Time Range :</label>
                 <div>
                     <slider id="timeRange" class="form-control max-width"></slider>
                 </div>
             </div>
-            <div class="form-group text-center value-chart hidden">
+            <div class="form-group text-center valueRange value-chart hidden">
                 <label for="valueRange">Value Range :</label>
                 <div>
                     <slider id="valueRange" class="form-control"></slider>
                 </div>
             </div>
             <div class="form-group text-center line-chart hidden">
-                <canvas id="lineChart" class="chart-line" chart-data="yAxisData.current" chart-labels="xAxisData.current" chart-height="700"></canvas>
+                <canvas id="lineChart" class="chart-line" chart-data="yAxisData.current" chart-labels="xAxisData.current" chart-options="lineChartOptions" chart-colors="lineChartColours"></canvas>
             </div>
             <div class="form-group text-center regulation-chart hidden">
-                <canvas id="regulationChart" class="chart-pie hidden" chart-data="regulationHistory" chart-labels="['Regulated','Not regulated']" chart-height="300"></canvas>
+                <canvas id="regulationChart" class="chart-pie" chart-data="regulationData" chart-labels="['Regulated','Not regulated']" chart-options="regulationChartOptions" chart-colors="regulationChartColours"></canvas>
             </div>
             <div class="form-group text-center value-chart hidden">
-                <canvas id="rangeChart" class="chart-pie hidden" chart-data="regulationHistory" chart-labels="['Regulated','Not regulated']" chart-height="300"></canvas>
+                <canvas id="rangeChart" class="chart-pie" chart-data="valueChartData" chart-labels="['Inside range','Outside of range']" chart-options="valueChartOptions" chart-colors="valueChartColours"></canvas>
             </div>
             <div class="form-group button text-center line-chart regulation-chart value-chart hidden">
                 <button type="submit" class="btn btn-primary">Reload</button>

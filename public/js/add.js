@@ -29,8 +29,8 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
                 value: 1,
                 scale: 'logarithmic',
                 step: 0.01,
-                ticks: [0.01, 0.1, 1, 10],
-                ticks_snap_bounds: 0.1,
+                ticks: [0.01, 0.1, 0.5, 1, 5, 10],
+                ticks_snap_bounds: 10,
                 enabled: true
             });
             $("#componentResolution").slider('refresh');
