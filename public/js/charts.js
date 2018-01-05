@@ -26,7 +26,6 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                     parseFloat($scope.yAxisData.current.filter(function(x) { return (Number(x) <= Number($scope.component.range[1]) && Number(x) >= Number($scope.component.range[0])) }).length / $scope.yAxisData.current.length * 100).toFixed(2),
                 ];
                 $scope.valueChartData.push(parseFloat(100 - $scope.valueChartData[0]).toFixed(2));
-                console.log($scope.valueChartData);
                 for (eachTick in $scope.yAxisData.master) {
                     var timeObject = moment(response.data.component.creation_date).add(eachTick, 'minutes').format('lll');
                     $scope.xAxisData.master.push(timeObject);
@@ -140,6 +139,7 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                         }]
                         break;
                     case 'Pressure':
+                        $('#chartKindSelect li:nth-child(2)').addClass('disabled');
                         $('.valueRange .slider .tooltip .tooltip-inner').html($scope.component.range[0] + ' hPa : ' + $scope.component.range[1] + ' hPa');
                         $scope.valueChartOptions.title.text = ['Percentage occurance of values', 'In range from ' + $scope.rangeMinVal + ' hPa to ' + $scope.rangeMaxVal + ' hPa', 'Since ' + $scope.xAxisData.master[$scope.timeMinVal] + ' till ' + $scope.xAxisData.master[$scope.timeMaxVal]];
                         $scope.lineChartOptions.scales.yAxes = [{
@@ -150,6 +150,7 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                         }]
                         break;
                     case 'Binary Switch':
+                        $('#chartKindSelect li:nth-child(3)').addClass('disabled');
                         $('.valueRange .slider .tooltip .tooltip-inner').html($scope.component.range[0] + ' : ' + $scope.component.range[1]);
                         $scope.valueChartOptions.title.text = ['Percentage occurance of values', 'In range from ' + $scope.rangeMinVal + ' to ' + $scope.rangeMaxVal, 'Since ' + $scope.xAxisData.master[$scope.timeMinVal] + ' till ' + $scope.xAxisData.master[$scope.timeMaxVal]];
                         $scope.lineChartOptions.scales.yAxes = [{
@@ -177,7 +178,6 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                         parseFloat($scope.yAxisData.current.filter(function(x) { return (Number(x) <= Number($scope.rangeMaxVal) && Number(x) >= Number($scope.rangeMinVal)) }).length / $scope.yAxisData.current.length * 100).toFixed(2),
                     ];
                     $scope.valueChartData.push(parseFloat(100 - $scope.valueChartData[0]).toFixed(2));
-                    console.log($scope.valueChartData);
                     $('.timeRange .slider .tooltip .tooltip-inner').text($scope.xAxisData.master[$scope.timeMinVal] + ' : ' + $scope.xAxisData.master[$scope.timeMaxVal]);
                     $scope.valueChartOptions.title.text[2] = 'Since ' + $scope.xAxisData.master[$scope.timeMinVal] + ' till ' + $scope.xAxisData.master[$scope.timeMaxVal];
                 });
@@ -195,7 +195,6 @@ app.controller('ChartsController', ['$scope', '$http', '$location', '$stateParam
                         parseFloat($scope.yAxisData.current.filter(function(x) { return (Number(x) <= Number($scope.rangeMaxVal) && Number(x) >= Number($scope.rangeMinVal)) }).length / $scope.yAxisData.current.length * 100).toFixed(2),
                     ];
                     $scope.valueChartData.push(parseFloat(100 - $scope.valueChartData[0]).toFixed(2));
-                    console.log($scope.valueChartData);
                     switch ($scope.component.type) {
                         case 'Temperature':
                             $('.valueRange .slider .tooltip .tooltip-inner').html($scope.rangeMinVal + ' &#x2103 : ' + $scope.rangeMaxVal + ' &#x2103');
