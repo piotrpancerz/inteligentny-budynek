@@ -17,6 +17,7 @@ app.controller('AuthenticationMessageController', ['$scope', '$http', '$location
     }
 
     $scope.redirect = function() {
+        /*Redirect to login page */
         window.location.replace('#!/login');
     }
 }]);
