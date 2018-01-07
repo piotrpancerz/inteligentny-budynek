@@ -2,6 +2,7 @@ var app = angular.module('intBuildApp', ['ui.router', 'nya.bootstrap.select', 'n
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
+    /* Define html template na js controller for each 'state' */
     $stateProvider
         .state('main', {
             url: '/',
@@ -143,5 +144,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         });
+
+    /* Redirect to / when given state is not defined above */
     $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate', '/authentication').otherwise('/')
 }]);

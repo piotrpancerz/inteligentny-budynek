@@ -2,6 +2,7 @@ var app = angular.module('intBuildApp');
 
 app.controller('LoginController', ['$scope', '$http', '$location', '$stateParams', function($scope, $http, $location, $stateParams) {
     $scope.checkIfLogged = function() {
+        /* Check if user is logged in */
         $http.get('/api/user/checklog').then(function(response) {
             if (response.data.logged) {
                 window.location.replace('#!/home');
@@ -9,6 +10,7 @@ app.controller('LoginController', ['$scope', '$http', '$location', '$stateParams
         })
     }
     $scope.login = function() {
+        /* Send user data to database and log in or send error message */
         $http.post('/api/user/login', $scope.user).then(function(response) {
             if (response.data.logged) {
                 window.location.replace('#!/home');

@@ -2,6 +2,7 @@ var app = angular.module('intBuildApp');
 
 app.controller('AddController', ['$scope', '$http', '$location', '$stateParams', function($scope, $http, $location, $stateParams) {
     $scope.initAdd = function() {
+        /* Check if user is logged in */
         $http.get('/api/user/checklog').then(function(response) {
             if (!response.data.logged || !response.data.user.active) {
                 window.location.replace('/')
@@ -10,6 +11,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             };
         });
 
+        /* Initialize component object with certain keys */
         $scope.component = {
             name: "",
             type: "",
@@ -20,6 +22,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             icon: ''
         }
 
+        /* Changes on select option choice change */
         $('#componentKindSelect').on('change', function() {
             $('div.form-group.component').addClass('hidden');
             $('#componentDesiredValueActive').prop('checked', false);
@@ -150,6 +153,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             };
         });
 
+        /* Changes on value range slider change */
         $('#componentValueRange').on('change', function() {
             var minVal = $(this).slider('getValue')[0];
             var maxVal = $(this).slider('getValue')[1];
@@ -164,6 +168,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             }
         });
 
+        /* Changes on desired value slider change */
         $('#componentDesiredValueActive').on('change', function() {
             var minVal = $('#componentValueRange').slider('getValue')[0];
             var maxVal = $('#componentValueRange').slider('getValue')[1];
@@ -181,9 +186,12 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
     }
 
     $scope.add = function() {
+        /* Gather lacking values to component object */
         $scope.component.range = $('#componentValueRange').slider('getValue');
         $scope.component.resolution = $('#componentResolution').slider('getValue');
         $scope.component.desired = $('#componentDesiredValue').slider('getValue');
+
+        /* Handle missing values (name, icon) and if nothing to handle - disable button Add */
         if ($scope.component.name == "") {
             $('#finalMessage').text('Name has to be defined!');
             $('#componentName').parent().addClass('has-error');
@@ -195,6 +203,7 @@ app.controller('AddController', ['$scope', '$http', '$location', '$stateParams',
             $('#finalMessage').text('Loading...');
             $('button[type=submit]').prop('disabled', true);
 
+            /* Send component object to server and add it */
             $http.post('/api/component/add', $scope.component).then(function(response) {
                 $('#finalMessage').text(response.data.message);
                 if (response.data.added === true) {

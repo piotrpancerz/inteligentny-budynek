@@ -2,6 +2,7 @@ var app = angular.module('intBuildApp');
 
 app.controller('NavbarController', function($scope, $http, $location) {
     $scope.checkIfLogged = function() {
+        /* Check if user is logged in */
         $http.get('/api/user/checklog').then(function(response) {
             if (response.data.logged) {
                 $scope.user = response.data.user;
@@ -168,6 +169,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
                 }];
                 break;
         }
+
         /* Define right navbar content */
         switch ($location.$$url) {
             case '/home':
@@ -216,6 +218,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
         }
     }
     $scope.logout = function() {
+        /* Logout user */
         $http.get('/api/user/logout').then(function(response) {
             if (!response.data.logged) {
                 window.location.replace('/');
@@ -223,6 +226,7 @@ app.controller('NavbarController', function($scope, $http, $location) {
         });
     }
     $scope.add = function() {
+        /* Redirect to add page */
         window.location.replace('#!/add');
     }
 

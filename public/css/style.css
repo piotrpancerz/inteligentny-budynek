@@ -1,27 +1,42 @@
+/* Handful classes */
+
 .hidden {
     display: none;
 }
 
-.slider-selection {
-    background: #BABABA;
-}
-
-button.inputLabel.disabled.btn-sm {
-    margin-left: 30px;
-    color: white;
+.inivisible {
+    visibility: hidden;
 }
 
 .max-width {
     width: 100% !important;
 }
 
+
+/* Define input label button css */
+
+button.inputLabel.disabled.btn-sm {
+    margin-left: 30px;
+    color: white;
+}
+
+
+/* Define sliders css */
+
+.slider-selection {
+    background: #BABABA;
+}
+
 .slider.slider-horizontal {
     width: 80% !important;
 }
 
-.inivisible {
-    visibility: hidden;
+.slider {
+    z-index: 0;
 }
+
+
+/* Define canvas sizes and placement ( charts ) */
 
 canvas#regulationChart,
 canvas#rangeChart {
@@ -37,8 +52,4 @@ canvas#regulationChart {
 canvas#rangeChart {
     max-width: 800px;
     max-height: 400px;
-}
-
-.slider {
-    z-index: 0;
 }
