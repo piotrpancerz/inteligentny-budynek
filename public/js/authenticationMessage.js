@@ -2,6 +2,7 @@ var app = angular.module('intBuildApp');
 
 app.controller('AuthenticationMessageController', ['$scope', '$http', '$location', '$stateParams', function($scope, $http, $location, $stateParams) {
     $scope.initAuthenticationMessage = function() {
+        /* Get variables from url */
         var matches = $location.$$url.match(/^\/authentication\/(.*)\/(.*)/);
         $scope.authenticationData = {
             username: matches[1],
