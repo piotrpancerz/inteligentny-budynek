@@ -7,7 +7,7 @@ app.controller('AuthenticateController', ['$scope', '$http', '$location', '$stat
             if (!response.data.logged) {
                 window.location.replace('/');
             } else if (response.data.logged && response.data.user.active) {
-                window.location.replace('#!/home')
+                window.location.replace('#!/components')
             }
             $scope.user = response.data.user;
         });

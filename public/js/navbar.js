@@ -44,30 +44,36 @@ app.controller('NavbarController', function($scope, $http, $location) {
                 }];
                 break;
             case '/home':
-                $scope.navbarMain = [{
-                    'name': 'Home',
-                    'link': '#!/home',
-                    'class': 'active',
-                    'icon': 'fa-home'
-                }, {
-                    'name': 'Components',
-                    'link': '#!/components',
-                    'class': '',
-                    'icon': 'fa-list'
-                }];
+                $scope.navbarMain = [
+                    //     {
+                    //     'name': 'Home',
+                    //     'link': '#!/home',
+                    //     'class': 'active',
+                    //     'icon': 'fa-home'
+                    // }, 
+                    {
+                        'name': 'Components',
+                        'link': '#!/components',
+                        'class': '',
+                        'icon': 'fa-list'
+                    }
+                ];
                 break;
             case '/components':
-                $scope.navbarMain = [{
-                    'name': 'Home',
-                    'link': '#!/home',
-                    'class': '',
-                    'icon': 'fa-home'
-                }, {
-                    'name': 'Components',
-                    'link': '#!/components',
-                    'class': 'active',
-                    'icon': 'fa-list'
-                }];
+                $scope.navbarMain = [
+                    //     {
+                    //     'name': 'Home',
+                    //     'link': '#!/home',
+                    //     'class': '',
+                    //     'icon': 'fa-home'
+                    // }, 
+                    {
+                        'name': 'Components',
+                        'link': '#!/components',
+                        'class': 'active',
+                        'icon': 'fa-list'
+                    }
+                ];
                 break;
             case ($location.$$url.match(/^\/chart\//) || {}).input:
                 $scope.navbarMain = [{
@@ -139,17 +145,20 @@ app.controller('NavbarController', function($scope, $http, $location) {
                 }];
                 break;
             case '/add':
-                $scope.navbarMain = [{
-                    'name': 'Home',
-                    'link': '#!/home',
-                    'class': '',
-                    'icon': 'fa-home'
-                }, {
-                    'name': 'Components',
-                    'link': '#!/components',
-                    'class': '',
-                    'icon': 'fa-list'
-                }];
+                $scope.navbarMain = [
+                    //     {
+                    //     'name': 'Home',
+                    //     'link': '#!/home',
+                    //     'class': '',
+                    //     'icon': 'fa-home'
+                    // }, 
+                    {
+                        'name': 'Components',
+                        'link': '#!/components',
+                        'class': '',
+                        'icon': 'fa-list'
+                    }
+                ];
                 break;
             case '/authenticate':
             case ($location.$$url.match(/^\/authentication\//) || {}).input:

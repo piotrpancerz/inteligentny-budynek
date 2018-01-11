@@ -17,19 +17,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         })
-        .state('home', {
-            url: '/home',
-            views: {
-                'navbar': {
-                    templateUrl: './views/navbar.html',
-                    controller: 'NavbarController'
-                },
-                'content': {
-                    templateUrl: './views/home.html',
-                    controller: 'HomeController'
-                }
-            }
-        })
+        // .state('home', {
+        //     url: '/home',
+        //     views: {
+        //         'navbar': {
+        //             templateUrl: './views/navbar.html',
+        //             controller: 'NavbarController'
+        //         },
+        //         'content': {
+        //             templateUrl: './views/home.html',
+        //             controller: 'HomeController'
+        //         }
+        //     }
+        // })
         .state('login', {
             url: '/login',
             views: {
@@ -146,5 +146,5 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         });
 
     /* Redirect to / when given state is not defined above */
-    $urlRouterProvider.when('/', '/login', '/register', '/home', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate', '/authentication').otherwise('/')
+    $urlRouterProvider.when('/', '/login', '/register', '/components', '/chart', '/add', '/edit', '/remove', '/authenticate', '/authentication').otherwise('/')
 }]);
