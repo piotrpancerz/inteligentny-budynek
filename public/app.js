@@ -2,7 +2,7 @@ var app = angular.module('intBuildApp', ['ui.router', 'nya.bootstrap.select', 'n
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-    /* Define html template na js controller for each 'state' */
+    /* Define html template and js controller for each 'state' */
     $stateProvider
         .state('main', {
             url: '/',
@@ -17,19 +17,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                 }
             }
         })
-        // .state('home', {
-        //     url: '/home',
-        //     views: {
-        //         'navbar': {
-        //             templateUrl: './views/navbar.html',
-        //             controller: 'NavbarController'
-        //         },
-        //         'content': {
-        //             templateUrl: './views/home.html',
-        //             controller: 'HomeController'
-        //         }
-        //     }
-        // })
         .state('login', {
             url: '/login',
             views: {
