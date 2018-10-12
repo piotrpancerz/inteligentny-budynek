@@ -1,1 +1,2 @@
-config/*
+config/dbConfig.json
+config/mailerConfig.json
